@@ -1192,3 +1192,4 @@ Data/Strings/StringsKO.txt
 Data/Strings/StringsSC.txt
 Data/Strings/StringsSP.txt
 Data/Strings/StringsTC.txt
+Data/Video/Mania.ogv
