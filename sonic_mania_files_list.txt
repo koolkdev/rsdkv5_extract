@@ -1,4 +1,5 @@
 Data/Game/GameConfig.bin
+Data/Images/CESA.tga
 Data/Meshes/Continue/Count0.bin
 Data/Meshes/Continue/Count1.bin
 Data/Meshes/Continue/Count2.bin
