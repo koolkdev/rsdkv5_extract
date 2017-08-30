@@ -1,3 +1,4 @@
+Data/Game/GameConfig.bin
 Data/Music/1up.ogg
 Data/Music/ActClear.ogg
 Data/Music/BlueSpheresSPD.ogg
