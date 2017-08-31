@@ -208,6 +208,7 @@ Data/SoundFX/Global/Warp.wav
 Data/SoundFX/HCZ/BigFan.wav
 Data/SoundFX/HCZ/Dunkey.wav
 Data/SoundFX/HCZ/EggMobile.wav
+Data/SoundFX/HCZ/HCZButtonDoor.wav
 Data/SoundFX/HCZ/PullChain.wav
 Data/SoundFX/HCZ/Skim.wav
 Data/SoundFX/HCZ/SmallFan.wav
@@ -589,6 +590,7 @@ Data/Sprites/CPZ/MBMSonic.bin
 Data/Sprites/CPZ/MBMSonic.gif
 Data/Sprites/CPZ/MBMTails.bin
 Data/Sprites/CPZ/MBMTails.gif
+Data/Sprites/CPZ/Objects-Classic.gif
 Data/Sprites/CPZ/Objects.gif
 Data/Sprites/CPZ/OneWayDoor.bin
 Data/Sprites/CPZ/Particles.bin
@@ -623,15 +625,24 @@ Data/Sprites/Eggman/EggMobile.bin
 Data/Sprites/Eggman/EggMobile.gif
 Data/Sprites/Eggman/Eggman1.gif
 Data/Sprites/Eggman/EggmanAll.bin
+Data/Sprites/Eggman/EggmanButton.gif
 Data/Sprites/Eggman/EggmanCPZ.bin
 Data/Sprites/Eggman/EggmanFBZ.bin
 Data/Sprites/Eggman/EggmanGHZCutt.bin
+Data/Sprites/Eggman/EggmanGHZCutt.gif
+Data/Sprites/Eggman/EggmanGacha.gif
 Data/Sprites/Eggman/EggmanHCZ1.bin
 Data/Sprites/Eggman/EggmanHCZ2.bin
+Data/Sprites/Eggman/EggmanMBM.gif
 Data/Sprites/Eggman/EggmanMMZ1.bin
 Data/Sprites/Eggman/EggmanMMZ2.bin
 Data/Sprites/Eggman/EggmanOOZ.bin
 Data/Sprites/Eggman/EggmanPSZ.bin
+Data/Sprites/Eggman/EggmanPanel.gif
+Data/Sprites/Eggman/EggmanPopup.gif
+Data/Sprites/Eggman/EggmanStand1.gif
+Data/Sprites/Eggman/EggmanStand2.gif
+Data/Sprites/Eggman/EggmanTF.gif
 Data/Sprites/Eggman/EggmanTMZ.bin
 Data/Sprites/Eggman/EggmanTMZ.gif
 Data/Sprites/FBZ/AniTiles.gif
@@ -788,6 +799,7 @@ Data/Sprites/LRZ1/LRZRockPile.bin
 Data/Sprites/LRZ1/LRZSpiral.bin
 Data/Sprites/LRZ1/LavaFall.bin
 Data/Sprites/LRZ1/LavaGeyser.bin
+Data/Sprites/LRZ1/Objects-Temp.gif
 Data/Sprites/LRZ1/Objects.gif
 Data/Sprites/LRZ1/Objects2.gif
 Data/Sprites/LRZ1/Particles.bin
@@ -924,6 +936,7 @@ Data/Sprites/OOZ/MegaOctus.gif
 Data/Sprites/OOZ/MeterDroid.bin
 Data/Sprites/OOZ/MeterDroid.gif
 Data/Sprites/OOZ/OOZParallax.bin
+Data/Sprites/OOZ/Objects-Classic.gif
 Data/Sprites/OOZ/Objects.gif
 Data/Sprites/OOZ/Octus.bin
 Data/Sprites/OOZ/Platform.bin
@@ -1206,6 +1219,7 @@ Data/Sprites/SpecialBS/HUD.bin
 Data/Sprites/SpecialBS/Horizon.bin
 Data/Sprites/SpecialBS/Horizon.gif
 Data/Sprites/SpecialBS/Knuckles.bin
+Data/Sprites/SpecialBS/Objects-Classic.gif
 Data/Sprites/SpecialBS/Objects.gif
 Data/Sprites/SpecialBS/PaletteIcon.bin
 Data/Sprites/SpecialBS/Players.gif
@@ -1243,6 +1257,7 @@ Data/Sprites/TMZ1/MetalArm.bin
 Data/Sprites/TMZ1/MonarchBG.bin
 Data/Sprites/TMZ1/MonarchBottom.gif
 Data/Sprites/TMZ1/MonarchTop.gif
+Data/Sprites/TMZ1/Objects-Temp.gif
 Data/Sprites/TMZ1/Objects.gif
 Data/Sprites/TMZ1/Platform.bin
 Data/Sprites/TMZ1/PopOut.bin
@@ -1531,10 +1546,6 @@ Data/Stages/UFO7/16x16Tiles.gif
 Data/Stages/UFO7/Scene1.bin
 Data/Stages/UFO7/StageConfig.bin
 Data/Stages/UFO7/TileConfig.bin
-Data/Stages/lSelect/16x16Tiles.gif
-Data/Stages/lSelect/Scene1.bin
-Data/Stages/lSelect/StageConfig.bin
-Data/Stages/lSelect/TileConfig.bin
 Data/Strings/Credits.txt
 Data/Strings/StringsEN.txt
 Data/Strings/StringsFR.txt
