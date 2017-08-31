@@ -4,31 +4,46 @@ import hashlib
 def swap_hash_endian(data):
     return struct.pack("<4L", *struct.unpack(">4L", data))
 
-class RSDKv5File(object):
-    def __init__(self, container, filename_hash, offset, size, is_encoded):
-        self.container = container
-        self.filename_hash = filename_hash
+
+class Data(object):
+    def get_data(self):
+        return None
+
+
+class FileData(Data):
+    def __init__(self, file, offset, size):
+        self.file = file
         self.offset = offset
         self.size = size
+
+    def get_data(self):
+        self.file.seek(self.offset)
+        data = self.file.read(self.size)
+        return data
+
+
+class RSDKv5File(object):
+    def __init__(self, filename, data, is_encoded, filename_hash=None):
+        self.filename = filename
+        if filename_hash is None:
+            filename_hash = hashlib.md5(filename.lower()).digest()
+        self.filename_hash = filename_hash
+        self.data = data
         self.is_encoded = is_encoded
-        self.filename = None
 
     def get_raw_data(self):
-        f = self.container.get_raw_file()
-        f.seek(self.offset)
-        data = f.read(self.size)
-        return data
+        return self.data.get_data()
 
     def get_data(self):
         data = self.get_raw_data()
         if self.is_encoded:
             assert self.filename is not None
             key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
-            key2 = map(ord, swap_hash_endian(hashlib.md5(str(self.size)).digest()))
+            key2 = map(ord, swap_hash_endian(hashlib.md5(str(len(data))).digest()))
             key1_index = 0
             key2_index = 8
             swap_nibbles = 0
-            xor_value = (self.size >> 2) & 0x7f
+            xor_value = (len(data) >> 2) & 0x7f
 
             ndata = []
             for c in map(ord, data):
@@ -76,11 +91,8 @@ class RSDKv5(object):
             offset, size = struct.unpack("<LL", self.f.read(0x8))
             is_encoded = (size >> 31) == 1
             size &= 0x7fffffff
-            self.files.append(RSDKv5File(self, hash, offset, size, is_encoded))
+            self.files.append(RSDKv5File(None, FileData(self.f, offset, size), is_encoded, hash))
             self.hash_to_file[hash] = self.files[-1]
-
-    def get_raw_file(self):
-        return self.f
 
     def get_file(self, name):
         hash = hashlib.md5(name.lower()).digest()
