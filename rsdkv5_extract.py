@@ -15,10 +15,14 @@ class RSDKv5File(object):
         self.is_encoded = is_encoded
         self.filename = None
 
-    def get_data(self):
+    def get_raw_data(self):
         f = self.container.get_raw_file()
         f.seek(self.offset)
         data = f.read(self.size)
+        return data
+
+    def get_data(self):
+        data = self.get_raw_data()
         if self.is_encoded:
             assert self.filename is not None
             key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
@@ -28,16 +32,16 @@ class RSDKv5File(object):
             swap_nibbles = 0
             xor_value = (self.size >> 2) & 0x7f
 
-            encoded_data = data
-            data = ""
-            for c in encoded_data:
-                c = ord(c)
+            ndata = []
+            for c in map(ord, data):
                 c ^= xor_value
                 c ^= key2[key2_index]
                 if swap_nibbles:
                     c = (c >> 4) | ((c & 0xf) << 4)
                 c ^= key1[key1_index]
-                data += chr(c)
+                ndata.append(c)
+
+                # Update things
                 key1_index += 1
                 key2_index += 1
                 if key1_index > 15 and key2_index > 8:
@@ -57,6 +61,7 @@ class RSDKv5File(object):
                     if key2_index > 12:
                         swap_nibbles ^= 1
                         key2_index = 0
+            data = "".join(map(chr, ndata))
         return data
 
 
@@ -86,7 +91,6 @@ class RSDKv5(object):
             f.filename = name
         return f
 
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print "Usage: rsdkv5_extract.py Data.rsdk"
@@ -104,4 +108,13 @@ if __name__ == "__main__":
             print "Extracting %s" % filename
             open(filename, "wb").write(f.get_data())
 
-    print "Unknown %d filenames (not extracted)" % len([f for f in rsdk.files if f.filename is None])
+    for f in rsdk.files:
+        if f.filename is None:
+            if f.is_encoded:
+                filename = ".unknown_encrypted/%s" % f.filename_hash.encode("hex")
+            else:
+                filename = ".unknown/%s" % f.filename_hash.encode("hex")
+            if not os.path.exists(os.path.dirname(filename)):
+                os.makedirs(os.path.dirname(filename))
+            print "Extracting %s" % filename
+            open(filename, "wb").write(f.get_raw_data())
