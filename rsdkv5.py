@@ -10,7 +10,7 @@ class Data(object):
     def get_data(self):
         raise NotImplementedError()
 
-    def is_encoded(self):
+    def is_encrypted(self):
         raise NotImplementedError()
 
 class FileData(Data):
@@ -25,25 +25,25 @@ class FileData(Data):
         data = f.read(self.size)
         return data
 
-class EncodedFileData(FileData):
-    def is_encoded(self):
+class EncryptedFileData(FileData):
+    def is_encrypted(self):
         return True
 
 class RawFileData(FileData):
-    def is_encoded(self):
+    def is_encrypted(self):
         return False
 
 
 class RSDKv5File(object):
-    def __init__(self, filename, data, is_encoded, filename_hash=None):
+    def __init__(self, filename, data, is_encrypted, filename_hash=None):
         self.filename = filename
         if filename_hash is None:
             filename_hash = hashlib.md5(filename.lower()).digest()
         self.filename_hash = filename_hash
         self.data = data
-        self.is_encoded = is_encoded
+        self.is_encrypted = is_encrypted
 
-    def encode_decode(self, data, is_decode=False):
+    def encrypt_decrypt(self, data, is_decrypt=False):
         assert self.filename is not None
         key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
         key2 = map(ord, swap_hash_endian(hashlib.md5(str(len(data))).digest()))
@@ -54,13 +54,13 @@ class RSDKv5File(object):
 
         ndata = []
         for c in map(ord, data):
-            if is_decode:
+            if is_decrypt:
                 c ^= xor_value ^ key2[key2_index]
             else:
                 c ^= key1[key1_index]
             if swap_nibbles:
                 c = (c >> 4) | ((c & 0xf) << 4)
-            if is_decode:
+            if is_decrypt:
                 c ^= key1[key1_index]
             else:
                 c ^= xor_value ^ key2[key2_index]
@@ -88,25 +88,25 @@ class RSDKv5File(object):
                     key2_index = 0
         return "".join(map(chr, ndata))
 
-    def encode(self, data):
-        return self.encode_decode(data, False)
+    def encrypt(self, data):
+        return self.encrypt_decrypt(data, False)
 
-    def decode(self, data):
-        return self.encode_decode(data, True)
+    def decrypt(self, data):
+        return self.encrypt_decrypt(data, True)
 
     def get_raw_data(self):
         return self.data.get_data()
 
-    def get_encoded_data(self):
+    def get_encrypted_data(self):
         data = self.get_raw_data()
-        if self.is_encoded and not self.data.is_encoded():
-            data = self.encode(data)
+        if self.is_encrypted and not self.data.is_encrypted():
+            data = self.encrypt(data)
         return data
 
     def get_data(self):
         data = self.get_raw_data()
-        if self.is_encoded and self.data.is_encoded():
-            data = self.decode(data)
+        if self.is_encrypted and self.data.is_encrypted():
+            data = self.decrypt(data)
         return data
 
 
@@ -122,9 +122,9 @@ class RSDKv5(object):
             for i in xrange(files_count):
                 hash = swap_hash_endian(f.read(0x10))
                 offset, size = struct.unpack("<LL", f.read(0x8))
-                is_encoded = (size >> 31) == 1
+                is_encrypted = (size >> 31) == 1
                 size &= 0x7fffffff
-                self.files.append(RSDKv5File(None, EncodedFileData(path, offset, size), is_encoded, hash))
+                self.files.append(RSDKv5File(None, EncryptedFileData(path, offset, size), is_encrypted, hash))
                 self.hash_to_file[hash] = self.files[-1]
 
     def get_file(self, name):
@@ -146,8 +146,8 @@ class RSDKv5(object):
 
         return "Data/Objects/Static/%s.bin" % filename
 
-    def add_file(self, name, data, is_encoded, filename_hash=None):
-        self.files.append(RSDKv5File(name, data, is_encoded, filename_hash))
+    def add_file(self, name, data, is_encrypted, filename_hash=None):
+        self.files.append(RSDKv5File(name, data, is_encrypted, filename_hash))
         self.hash_to_file[self.files[-1].filename_hash] = self.files[-1]
 
     def dump(self, output_file):
@@ -157,9 +157,9 @@ class RSDKv5(object):
         for f in self.files:
             file_length = len(f.get_raw_data())
             output_file.write(swap_hash_endian(f.filename_hash))
-            output_file.write(struct.pack("<LL", offset, file_length | (int(f.is_encoded) << 31)))
+            output_file.write(struct.pack("<LL", offset, file_length | (int(f.is_encrypted) << 31)))
             offset += file_length
         for f in self.files:
-            output_file.write(f.get_encoded_data())
+            output_file.write(f.get_encrypted_data())
 
 

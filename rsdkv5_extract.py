@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     for f in rsdk.files:
         if f.filename is None:
-            if f.is_encoded:
+            if f.is_encrypted:
                 filename = ".unknown_encrypted/%s" % f.filename_hash.encode("hex")
             else:
                 filename = ".unknown/%s" % f.filename_hash.encode("hex")
@@ -43,4 +43,4 @@ if __name__ == "__main__":
             if not os.path.exists(os.path.dirname(path)):
                 os.makedirs(os.path.dirname(path))
             print "Extracting %s" % filename
-            open(path, "wb").write(f.get_encoded_data())
+            open(path, "wb").write(f.get_encrypted_data())

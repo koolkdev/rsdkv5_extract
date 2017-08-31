@@ -21,7 +21,7 @@ if __name__ == "__main__":
         nroot = nroot[len(input_path):]
         if nroot != ".unknown" and nroot != ".unknown_encrypted":
             for filename in filenames:
-                # Don't encode ogg files
+                # Don't encrypt ogg files
                 rsdk.add_file(nroot + "/" + filename, rsdkv5.RawFileData(os.path.join(root, filename)), not filename.endswith(".ogg"))
                 print "Add %s" % (nroot + "/" + filename)
 
@@ -33,12 +33,12 @@ if __name__ == "__main__":
         if nroot == ".unknown_encrypted":
             for filename in filenames:
                 if filename.decode("hex") not in rsdk.hash_to_file:
-                    rsdk.add_file(None, rsdkv5.EncodedFileData(os.path.join(root, filename)), True, filename.decode("hex"))
+                    rsdk.add_file(None, rsdkv5.EncryptedFileData(os.path.join(root, filename)), True, filename.decode("hex"))
                     print "Add %s" % filename
         elif nroot == ".unknown":
             for filename in filenames:
                 if filename.decode("hex") not in rsdk.hash_to_file:
-                    rsdk.add_file(None, rsdkv5.EncodedFileData(os.path.join(root, filename)), False, filename.decode("hex"))
+                    rsdk.add_file(None, rsdkv5.EncryptedFileData(os.path.join(root, filename)), False, filename.decode("hex"))
                     print "Add %s" % filename
 
     print "Writing %s" % sys.argv[1]
