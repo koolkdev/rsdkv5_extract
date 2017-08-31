@@ -1,8 +1,8 @@
-import struct
-import hashlib
+from struct import pack, unpack
+from hashlib import md5
 
 def swap_hash_endian(data):
-    return struct.pack("<4L", *struct.unpack(">4L", data))
+    return pack("<4L", *unpack(">4L", data))
 
 
 class Data(object):
@@ -20,9 +20,9 @@ class EncodedFileData(Data):
         self.size = size
 
     def get_data(self):
-        f = open(self.filename, "rb")
-        f.seek(self.offset)
-        data = f.read(self.size)
+        with open(self.filename, "rb") as f:
+            f.seek(self.offset)
+            data = f.read(self.size)
         return data
 
 
@@ -35,15 +35,15 @@ class RSDKv5File(object):
     def __init__(self, filename, data, is_encoded, filename_hash=None):
         self.filename = filename
         if filename_hash is None:
-            filename_hash = hashlib.md5(filename.lower()).digest()
+            filename_hash = md5(filename.lower()).digest()
         self.filename_hash = filename_hash
         self.data = data
         self.is_encoded = is_encoded
 
     def encode(self, data):
         assert self.filename is not None
-        key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
-        key2 = map(ord, swap_hash_endian(hashlib.md5(str(len(data))).digest()))
+        key1 = map(ord, swap_hash_endian(md5(self.filename.upper()).digest()))
+        key2 = map(ord, swap_hash_endian(md5(str(len(data))).digest()))
         key1_index = 0
         key2_index = 8
         swap_nibbles = 0
@@ -101,20 +101,20 @@ class RSDKv5(object):
         self.files = []
         self.hash_to_file = {}
         if path is not None:
-            f = open(path, "rb")
-            assert f.read(4) == "RSDK", "Invalid magic (expected RSDK)"
-            assert f.read(2) == "v5", "Invalid RSDK magic (expected v5)"
-            files_count = struct.unpack("<H", f.read(2))[0]
-            for i in xrange(files_count):
-                hash = swap_hash_endian(f.read(0x10))
-                offset, size = struct.unpack("<LL", f.read(0x8))
-                is_encoded = (size >> 31) == 1
-                size &= 0x7fffffff
-                self.files.append(RSDKv5File(None, EncodedFileData(path, offset, size), is_encoded, hash))
-                self.hash_to_file[hash] = self.files[-1]
+            with open(path, "rb") as f:
+                assert f.read(4) == "RSDK", "Invalid magic (expected RSDK)"
+                assert f.read(2) == "v5", "Invalid RSDK magic (expected v5)"
+                file_count = unpack("<H", f.read(2))[0]
+                for i in range(file_count):
+                    hash = swap_hash_endian(f.read(16))
+                    offset, size = unpack("<LL", f.read(8))
+                    is_encoded = (size >> 31) == 1
+                    size &= 0x7FFFFFFF
+                    self.files.append(RSDKv5File(None, EncodedFileData(path, offset, size), is_encoded, hash))
+                    self.hash_to_file[hash] = self.files[-1]
 
     def get_file(self, name):
-        hash = hashlib.md5(name.lower()).digest()
+        hash = md5(name.lower()).digest()
         f = self.hash_to_file.get(hash)
         if f is not None:
             f.filename = name
@@ -126,14 +126,12 @@ class RSDKv5(object):
 
     def dump(self, output_file):
         output_file.write("RSDKv5")
-        output_file.write(struct.pack("<H", len(self.files)))
+        output_file.write(pack("<H", len(self.files)))
         offset = 8 + len(self.files) * 0x18
         for f in self.files:
             file_length = len(f.get_raw_data())
             output_file.write(swap_hash_endian(f.filename_hash))
-            output_file.write(struct.pack("<LL", offset, file_length | (int(f.is_encoded) << 31)))
+            output_file.write(pack("<LL", offset, file_length | (int(f.is_encoded) << 31)))
             offset += file_length
         for f in self.files:
             output_file.write(f.get_encoded_data())
-
-
