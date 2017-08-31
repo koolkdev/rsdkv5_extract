@@ -21,8 +21,8 @@ if __name__ == "__main__":
         nroot = nroot[len(input_path):]
         if nroot != ".unknown" and nroot != ".unknown_encrypted":
             for filename in filenames:
-                # Don't encode anything right now (TODO: Fix the encoding)
-                rsdk.add_file(nroot + "/" + filename, rsdkv5.RawFileData(os.path.join(root, filename)), False)
+                # Don't encode ogg files
+                rsdk.add_file(nroot + "/" + filename, rsdkv5.RawFileData(os.path.join(root, filename)), not filename.endswith(".ogg"))
                 print "Add %s" % (nroot + "/" + filename)
 
     # Now add unknowns

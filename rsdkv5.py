@@ -1,5 +1,6 @@
 import struct
 import hashlib
+import time
 
 def swap_hash_endian(data):
     return struct.pack("<4L", *struct.unpack(">4L", data))
@@ -7,13 +8,12 @@ def swap_hash_endian(data):
 
 class Data(object):
     def get_data(self):
-        return None
+        raise NotImplementedError()
 
     def is_encoded(self):
-        return True
+        raise NotImplementedError()
 
-
-class EncodedFileData(Data):
+class FileData(Data):
     def __init__(self, filename, offset=0, size=-1):
         self.filename = filename
         self.offset = offset
@@ -25,8 +25,11 @@ class EncodedFileData(Data):
         data = f.read(self.size)
         return data
 
+class EncodedFileData(FileData):
+    def is_encoded(self):
+        return True
 
-class RawFileData(EncodedFileData):
+class RawFileData(FileData):
     def is_encoded(self):
         return False
 
@@ -40,7 +43,7 @@ class RSDKv5File(object):
         self.data = data
         self.is_encoded = is_encoded
 
-    def encode(self, data):
+    def encode_decode(self, data, is_decode=False):
         assert self.filename is not None
         key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
         key2 = map(ord, swap_hash_endian(hashlib.md5(str(len(data))).digest()))
@@ -51,11 +54,16 @@ class RSDKv5File(object):
 
         ndata = []
         for c in map(ord, data):
-            c ^= xor_value
-            c ^= key2[key2_index]
+            if is_decode:
+                c ^= xor_value ^ key2[key2_index]
+            else:
+                c ^= key1[key1_index]
             if swap_nibbles:
                 c = (c >> 4) | ((c & 0xf) << 4)
-            c ^= key1[key1_index]
+            if is_decode:
+                c ^= key1[key1_index]
+            else:
+                c ^= xor_value ^ key2[key2_index]
             ndata.append(c)
 
             # Update things
@@ -80,6 +88,12 @@ class RSDKv5File(object):
                     key2_index = 0
         return "".join(map(chr, ndata))
 
+    def encode(self, data):
+        return self.encode_decode(data, False)
+
+    def decode(self, data):
+        return self.encode_decode(data, True)
+
     def get_raw_data(self):
         return self.data.get_data()
 
@@ -92,7 +106,7 @@ class RSDKv5File(object):
     def get_data(self):
         data = self.get_raw_data()
         if self.is_encoded and self.data.is_encoded():
-            data = self.encode(data)
+            data = self.decode(data)
         return data
 
 
