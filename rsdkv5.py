@@ -42,10 +42,14 @@ class RSDKv5File(object):
         self.filename_hash = filename_hash
         self.data = data
         self.is_encrypted = is_encrypted
+        self.key1 = None
 
     def encrypt_decrypt(self, data, is_decrypt=False):
-        assert self.filename is not None
-        key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
+        if self.key1 is None:
+            assert self.filename is not None
+            key1 = map(ord, swap_hash_endian(hashlib.md5(self.filename.upper()).digest()))
+        else:
+            key1 = self.key1
         key2 = map(ord, swap_hash_endian(hashlib.md5(str(len(data))).digest()))
         key1_index = 0
         key2_index = 8
@@ -87,6 +91,53 @@ class RSDKv5File(object):
                     swap_nibbles ^= 1
                     key2_index = 0
         return "".join(map(chr, ndata))
+
+    def guess_unknown_encrypted_key(self):
+        # Assume most of the bytes are zero
+        data = self.get_encrypted_data()
+        key1_options = [[] for i in xrange(16)]
+        key2 = map(ord, swap_hash_endian(hashlib.md5(str(len(data))).digest()))
+        key1_index = 0
+        key2_index = 8
+        swap_nibbles = 0
+        xor_value = (len(data) >> 2) & 0x7f
+
+        for c in map(ord, data):
+            c ^= xor_value ^ key2[key2_index]
+            if swap_nibbles:
+                c = (c >> 4) | ((c & 0xf) << 4)
+            key1_options[key1_index].append(c)
+
+            # Update things
+            key1_index += 1
+            key2_index += 1
+            if key1_index > 15 and key2_index > 8:
+                xor_value += 2
+                xor_value &= 0x7f
+                if swap_nibbles:
+                    key1_index = xor_value % 7
+                    key2_index = (xor_value % 12) + 2
+                else:
+                    key1_index = (xor_value % 12) + 3
+                    key2_index = xor_value % 7
+                swap_nibbles ^= 1
+            else:
+                if key1_index > 15:
+                    swap_nibbles ^= 1
+                    key1_index = 0
+                if key2_index > 12:
+                    swap_nibbles ^= 1
+                    key2_index = 0
+        self.key1 = []
+        for i in xrange(0x10):
+            max_occurrence = 0
+            b = 0
+            for j in xrange(0x100):
+                cc = key1_options[i].count(j)
+                if cc > max_occurrence:
+                    max_occurrence = cc
+                    b = j
+            self.key1.append(b)
 
     def encrypt(self, data):
         return self.encrypt_decrypt(data, False)

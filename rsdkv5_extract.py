@@ -43,4 +43,14 @@ if __name__ == "__main__":
             if not os.path.exists(os.path.dirname(path)):
                 os.makedirs(os.path.dirname(path))
             print "Extracting %s" % filename
-            open(path, "wb").write(f.get_encrypted_data())
+            open(path, "wb").write(f.get_raw_data())
+
+            if f.is_encrypted:
+                filename = ".unknown_encrypted_guess/%s" % f.filename_hash.encode("hex")
+                path = filename
+                if output_path is not None:
+                    path = os.path.join(output_path, path)
+                if not os.path.exists(os.path.dirname(path)):
+                    os.makedirs(os.path.dirname(path))
+                f.guess_unknown_encrypted_key()
+                open(path, "wb").write(f.get_data())

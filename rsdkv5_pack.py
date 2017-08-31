@@ -19,7 +19,7 @@ if __name__ == "__main__":
         nroot = root.replace("\\", "/")
         assert nroot.startswith(input_path.replace("\\", "/"))
         nroot = nroot[len(input_path):]
-        if nroot != ".unknown" and nroot != ".unknown_encrypted":
+        if not nroot.startswith("."):
             for filename in filenames:
                 # Don't encrypt ogg files
                 rsdk.add_file(nroot + "/" + filename, rsdkv5.RawFileData(os.path.join(root, filename)), not filename.endswith(".ogg"))
