@@ -49,6 +49,7 @@ PullChain
 PuyoAI
 PuyoBean
 PuyoMatch
+RollSwitch
 SDashWheel
 SPZ2Setup
 SSZSpotlight
