@@ -150,6 +150,9 @@ Data/SoundFX/FBZ/FBZFan.wav
 Data/SoundFX/FBZ/Magnet.wav
 Data/SoundFX/FBZ/Orbinaut.wav
 Data/SoundFX/FBZ/Rain.wav
+Data/SoundFX/FBZ/SpiderBounce1.wav
+Data/SoundFX/FBZ/SpiderBounce2.wav
+Data/SoundFX/FBZ/SpiderBounce3.wav
 Data/SoundFX/FBZ/SpiderCharge.wav
 Data/SoundFX/FBZ/SpiderElecBall.wav
 Data/SoundFX/FBZ/SpiderFall.wav
@@ -300,6 +303,7 @@ Data/SoundFX/PSZ/Juggle.wav
 Data/SoundFX/PSZ/JuggleThrow.wav
 Data/SoundFX/PSZ/Letter.wav
 Data/SoundFX/PSZ/Paper.wav
+Data/SoundFX/PSZ/PaperBounce.wav
 Data/SoundFX/PSZ/Peck.wav
 Data/SoundFX/PSZ/Petals.wav
 Data/SoundFX/PSZ/Press.wav
@@ -422,6 +426,7 @@ Data/SoundFX/Stage/Clack.wav
 Data/SoundFX/Stage/Clacker.wav
 Data/SoundFX/Stage/Clang.wav
 Data/SoundFX/Stage/Clang2.wav
+Data/SoundFX/Stage/Clapperboard.wav
 Data/SoundFX/Stage/Click.wav
 Data/SoundFX/Stage/Click2.wav
 Data/SoundFX/Stage/Drop.wav
@@ -454,6 +459,7 @@ Data/SoundFX/Stage/Landing.wav
 Data/SoundFX/Stage/Launch.wav
 Data/SoundFX/Stage/Lava.wav
 Data/SoundFX/Stage/LedgeBreak.wav
+Data/SoundFX/Stage/LedgeBreak2.wav
 Data/SoundFX/Stage/LedgeBreak3.wav
 Data/SoundFX/Stage/LetterTurn.wav
 Data/SoundFX/Stage/LottoBounce.wav
@@ -559,6 +565,7 @@ Data/Sprites/Blueprint/Motobug.bin
 Data/Sprites/Blueprint/Objects.gif
 Data/Sprites/Blueprint/Platform.bin
 Data/Sprites/Blueprint/SpearBlock.bin
+Data/Sprites/Blueprint/SpringBoard.bin
 Data/Sprites/Blueprint/TargetBumper.bin
 Data/Sprites/Blueprint/WallCrawl.bin
 Data/Sprites/Blueprint/Wisp.bin
@@ -594,6 +601,7 @@ Data/Sprites/CPZ/Staircase.bin
 Data/Sprites/CPZ/StickyPlatform.bin
 Data/Sprites/CPZ/Sweep.bin
 Data/Sprites/CPZ/Syringe.bin
+Data/Sprites/CPZ/TransportTube.bin
 Data/Sprites/CPZ/TubeSpring.bin
 Data/Sprites/CPZ/TwistedTubes.bin
 Data/Sprites/Credits/Images.gif
@@ -787,6 +795,7 @@ Data/Sprites/LRZ1/Platform.bin
 Data/Sprites/LRZ1/Rexon.bin
 Data/Sprites/LRZ1/RockDrill.bin
 Data/Sprites/LRZ1/RockPile.bin
+Data/Sprites/LRZ1/ShootingTrigger.bin
 Data/Sprites/LRZ1/Stalactite.bin
 Data/Sprites/LRZ1/Toxomister.bin
 Data/Sprites/LRZ1/TurretSwitch.bin
@@ -810,6 +819,8 @@ Data/Sprites/LRZ2/LRZRockPile.bin
 Data/Sprites/LRZ2/LRZSpikeBall.bin
 Data/Sprites/LRZ2/LavaFall.bin
 Data/Sprites/LRZ2/LavaGeyser.bin
+Data/Sprites/LRZ2/Objects.gif
+Data/Sprites/LRZ2/ObjectsTemp.gif
 Data/Sprites/LRZ2/OrbitSpike.bin
 Data/Sprites/LRZ2/Particles.bin
 Data/Sprites/LRZ2/Platform.bin
@@ -847,6 +858,7 @@ Data/Sprites/MMZ/ElectricOrb.bin
 Data/Sprites/MMZ/Enemies.gif
 Data/Sprites/MMZ/Flamethrower.bin
 Data/Sprites/MMZ/Gachapandora.bin
+Data/Sprites/MMZ/JunctionWheel.bin
 Data/Sprites/MMZ/MMZWheel.bin
 Data/Sprites/MMZ/MatryoshkaBom.bin
 Data/Sprites/MMZ/MechaBu.bin
@@ -901,6 +913,7 @@ Data/Sprites/MSZ/Vultron.bin
 Data/Sprites/OOZ/AniTiles.gif
 Data/Sprites/OOZ/Aquis.bin
 Data/Sprites/OOZ/BallCannon.bin
+Data/Sprites/OOZ/CheckerBall.bin
 Data/Sprites/OOZ/Enemies.gif
 Data/Sprites/OOZ/Fan.bin
 Data/Sprites/OOZ/Flames.bin
@@ -1044,9 +1057,15 @@ Data/Sprites/SBZ/BallHog.bin
 Data/Sprites/SBZ/Bomb.bin
 Data/Sprites/SBZ/Button.bin
 Data/Sprites/SBZ/BuzzSaw.bin
+Data/Sprites/SBZ/CaterKiller.bin
+Data/Sprites/SBZ/ConveyorWheel.bin
 Data/Sprites/SBZ/ElectricOrb.bin
 Data/Sprites/SBZ/Flamethrower.bin
+Data/Sprites/SBZ/JunctionWheel.bin
 Data/Sprites/SBZ/Objects-Classic.gif
+Data/Sprites/SBZ/OneWayDoor.bin
+Data/Sprites/SBZ/Orbinaut.bin
+Data/Sprites/SBZ/PistonMachine.bin
 Data/Sprites/SBZ/Platform.bin
 Data/Sprites/SBZ/Trapdoor.bin
 Data/Sprites/SPZ1/AniTiles.gif
@@ -1160,6 +1179,7 @@ Data/Sprites/SSZ2/Enemies.gif
 Data/Sprites/SSZ2/Firework.bin
 Data/Sprites/SSZ2/Hotaru.bin
 Data/Sprites/SSZ2/HotaruMKII.bin
+Data/Sprites/SSZ2/JunctionWheel.bin
 Data/Sprites/SSZ2/Kabasira.bin
 Data/Sprites/SSZ2/Kanabun.bin
 Data/Sprites/SSZ2/Laser.gif
@@ -1187,6 +1207,7 @@ Data/Sprites/SpecialBS/Horizon.bin
 Data/Sprites/SpecialBS/Horizon.gif
 Data/Sprites/SpecialBS/Knuckles.bin
 Data/Sprites/SpecialBS/Objects.gif
+Data/Sprites/SpecialBS/PaletteIcon.bin
 Data/Sprites/SpecialBS/Players.gif
 Data/Sprites/SpecialBS/Ring.bin
 Data/Sprites/SpecialBS/Sonic.bin
