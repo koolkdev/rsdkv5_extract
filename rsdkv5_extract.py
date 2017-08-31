@@ -92,9 +92,13 @@ class RSDKv5(object):
         return f
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print "Usage: rsdkv5_extract.py Data.rsdk"
+    if not 2 <= len(sys.argv) <= 3:
+        print "Usage: rsdkv5_extract.py Data.rsdk [output_folder]"
         sys.exit(-1)
+
+    output_path = None
+    if len(sys.argv) >= 3:
+        output_path = sys.argv[2]
 
     # Load known files
     filenames = [x.strip() for x in open("sonic_mania_files_list.txt", "r").readlines()]
@@ -102,11 +106,14 @@ if __name__ == "__main__":
     rsdk = RSDKv5(sys.argv[1])
     for filename in filenames:
         f = rsdk.get_file(filename)
+        path = filename
+        if output_path is not None:
+            path = os.path.join(output_path, path)
         if f is not None:
-            if not os.path.exists(os.path.dirname(filename)):
-                os.makedirs(os.path.dirname(filename))
+            if not os.path.exists(os.path.dirname(path)):
+                os.makedirs(os.path.dirname(path))
             print "Extracting %s" % filename
-            open(filename, "wb").write(f.get_data())
+            open(path, "wb").write(f.get_data())
 
     for f in rsdk.files:
         if f.filename is None:
@@ -114,7 +121,10 @@ if __name__ == "__main__":
                 filename = ".unknown_encrypted/%s" % f.filename_hash.encode("hex")
             else:
                 filename = ".unknown/%s" % f.filename_hash.encode("hex")
-            if not os.path.exists(os.path.dirname(filename)):
-                os.makedirs(os.path.dirname(filename))
+            path = filename
+            if output_path is not None:
+                path = os.path.join(output_path, path)
+            if not os.path.exists(os.path.dirname(path)):
+                os.makedirs(os.path.dirname(path))
             print "Extracting %s" % filename
-            open(filename, "wb").write(f.get_raw_data())
+            open(path, "wb").write(f.get_raw_data())
