@@ -11,10 +11,12 @@ if __name__ == "__main__":
     if len(sys.argv) >= 3:
         output_path = sys.argv[2]
 
-    # Load known files
-    filenames = [x.strip() for x in open("sonic_mania_files_list.txt", "r").readlines()]
+    dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
-    static_objects_names = [x.strip() for x in open("static_objects_list.txt", "r").readlines()]
+    # Load known files
+    filenames = [x.strip() for x in open(os.path.join(dir, "sonic_mania_files_list.txt"), "r").readlines()]
+
+    static_objects_names = [x.strip() for x in open(os.path.join(dir, "static_objects_list.txt"), "r").readlines()]
     filenames += [rsdkv5.RSDKv5.get_static_object_path(name) for name in static_objects_names]
 
     rsdk = rsdkv5.RSDKv5(sys.argv[1])
