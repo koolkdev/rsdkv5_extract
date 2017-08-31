@@ -120,6 +120,18 @@ class RSDKv5(object):
             f.filename = name
         return f
 
+    @staticmethod
+    def get_static_object_path(name):
+        hash = swap_hash_endian(hashlib.md5(name).digest())
+
+        filename = ""
+        filename += hash[0:4].encode("hex").upper()[::-1]
+        filename += hash[4:8].encode("hex").upper()[::-1]
+        filename += hash[8:12].encode("hex").upper()[::-1]
+        filename += hash[12:16].encode("hex").upper()[::-1]
+
+        return "Data/Objects/Static/%s.bin" % filename
+
     def add_file(self, name, data, is_encoded, filename_hash=None):
         self.files.append(RSDKv5File(name, data, is_encoded, filename_hash))
         self.hash_to_file[self.files[-1].filename_hash] = self.files[-1]

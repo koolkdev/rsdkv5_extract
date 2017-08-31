@@ -14,6 +14,9 @@ if __name__ == "__main__":
     # Load known files
     filenames = [x.strip() for x in open("sonic_mania_files_list.txt", "r").readlines()]
 
+    static_objects_names = [x.strip() for x in open("static_objects_list.txt", "r").readlines()]
+    filenames += [rsdkv5.RSDKv5.get_static_object_path(name) for name in static_objects_names]
+
     rsdk = rsdkv5.RSDKv5(sys.argv[1])
     for filename in filenames:
         f = rsdk.get_file(filename)
