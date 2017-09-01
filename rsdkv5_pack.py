@@ -21,8 +21,8 @@ if __name__ == "__main__":
         nroot = nroot[len(input_path):]
         if not nroot.startswith("."):
             for filename in filenames:
-                # Don't encrypt ogg files
-                rsdk.add_file(nroot + "/" + filename, rsdkv5.RawFileData(os.path.join(root, filename)), not filename.endswith(".ogg"))
+                # Don't encrypt any file, it takes time
+                rsdk.add_file(nroot + "/" + filename, rsdkv5.RawFileData(os.path.join(root, filename)), False)
                 print "Add %s" % (nroot + "/" + filename)
 
     # Now add unknowns
