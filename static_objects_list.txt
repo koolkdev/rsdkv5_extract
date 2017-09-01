@@ -52,6 +52,7 @@ PuyoMatch
 RollSwitch
 SDashWheel
 SPZ2Setup
+SPZSetup
 SSZSpotlight
 SeeSaw
 SentryBug

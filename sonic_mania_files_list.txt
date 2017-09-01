@@ -1019,6 +1019,7 @@ Data/Sprites/Phantom/Flames.bin
 Data/Sprites/Phantom/Flames.gif
 Data/Sprites/Phantom/KleptoMobile.bin
 Data/Sprites/Phantom/KleptoMobile.gif
+Data/Sprites/Phantom/KleptoMobileB.gif
 Data/Sprites/Phantom/Monarch.bin
 Data/Sprites/Phantom/Objects.gif
 Data/Sprites/Phantom/PhantomEgg.bin
@@ -1029,6 +1030,7 @@ Data/Sprites/Phantom/PhantomKing.gif
 Data/Sprites/Phantom/PhantomKing2.gif
 Data/Sprites/Phantom/PhantomKing3.gif
 Data/Sprites/Phantom/PhantomKing4.gif
+Data/Sprites/Phantom/PhantomKingB.gif
 Data/Sprites/Phantom/PhantomMystic.bin
 Data/Sprites/Phantom/PhantomRider.bin
 Data/Sprites/Phantom/PhantomShinobi.bin
@@ -1289,6 +1291,7 @@ Data/Sprites/Title/DemoMenu.gif
 Data/Sprites/Title/Electricity.bin
 Data/Sprites/Title/Electricity1.gif
 Data/Sprites/Title/Electricity2.gif
+Data/Sprites/Title/Image1.png
 Data/Sprites/Title/Logo.bin
 Data/Sprites/Title/Logo.gif
 Data/Sprites/Title/Sonic.bin
