@@ -62,7 +62,7 @@ MDL = Struct("MDL",
 )
 
 def write_vertex(vertex):
-    output.write("      vertex %f %f %f\n" % (vertex.x, vertex.y, vertex.z))
+    output.write("      vertex %f %f %f\n" % (vertex.x, vertex.z, vertex.y))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
