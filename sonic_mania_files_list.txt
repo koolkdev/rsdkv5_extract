@@ -621,6 +621,9 @@ Data/Sprites/Cutscene/Rider.bin
 Data/Sprites/Cutscene/Shinobi.bin
 Data/Sprites/Dev/Font.bin
 Data/Sprites/Dev/Font.gif
+Data/Sprites/Editor/CutsceneHBH.bin
+Data/Sprites/Editor/CutsceneHBH.gif
+Data/Sprites/Editor/Icons.gif
 Data/Sprites/Eggman/EggMobile.bin
 Data/Sprites/Eggman/EggMobile.gif
 Data/Sprites/Eggman/Eggman1.gif
@@ -1312,6 +1315,7 @@ Data/Sprites/UI/MainIcons.bin
 Data/Sprites/UI/MainIcons.gif
 Data/Sprites/UI/MedallionPanel.bin
 Data/Sprites/UI/PauseEN.gif
+Data/Sprites/UI/PauseEN_old.gif
 Data/Sprites/UI/PauseFR.gif
 Data/Sprites/UI/PauseGE.gif
 Data/Sprites/UI/PauseIT.gif
@@ -1328,6 +1332,8 @@ Data/Sprites/UI/SmallFont1.gif
 Data/Sprites/UI/SmallFont2.gif
 Data/Sprites/UI/TextEN.bin
 Data/Sprites/UI/TextEN.gif
+Data/Sprites/UI/TextEN_old.bin
+Data/Sprites/UI/TextEN_old.gif
 Data/Sprites/UI/TextFR.bin
 Data/Sprites/UI/TextFR.gif
 Data/Sprites/UI/TextGE.bin
@@ -1365,6 +1371,8 @@ Data/Stages/ERZ/16x16Tiles.gif
 Data/Stages/ERZ/Scene1.bin
 Data/Stages/ERZ/StageConfig.bin
 Data/Stages/ERZ/TileConfig.bin
+Data/Stages/Ending/16x16Tiles.gif
+Data/Stages/Ending/StageConfig.bin
 Data/Stages/FBZ/16x16Tiles.gif
 Data/Stages/FBZ/Scene1.bin
 Data/Stages/FBZ/Scene2.bin
@@ -1515,6 +1523,9 @@ Data/Stages/Thanks/16x16Tiles.gif
 Data/Stages/Thanks/Scene1.bin
 Data/Stages/Thanks/StageConfig.bin
 Data/Stages/Thanks/TileConfig.bin
+Data/Stages/TimeTravel/16x16Tiles.gif
+Data/Stages/TimeTravel/Scene1.bin
+Data/Stages/TimeTravel/StageConfig.bin
 Data/Stages/Title/16x16Tiles.gif
 Data/Stages/Title/Scene1.bin
 Data/Stages/Title/StageConfig.bin
