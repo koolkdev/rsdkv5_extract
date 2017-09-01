@@ -1,58 +1,56 @@
 from construct import *
 import sys
 
-MDL = Struct("MDL",
-    Bytes("Magic", 4),  # MDL\0
+MDL = Struct(
+    "Magic" / Const("MDL\0"),
     # Flags
-    EmbeddedBitStruct(
-        BitField("UnusedFlags", 5),
-        Flag("HasColors"),
-        Flag("MaybeHasTextureCoordinates"),
-        Flag("HasNormals"),
-    ),
-    ULInt8("FaceEdges"),  # 3 or 4
-    ULInt16("VerticiesCount"),
-    ULInt16("MeshesCount"),
+    Embedded(FlagsEnum(Int8ul,
+        HasNormals=1,
+        MaybeHasTextureCoordinates=2,
+        HasColors=4)),
+    "FaceEdges" / Int8ul,  # 3 or 4
+    "VerticiesCount" / Int16ul,
+    "MeshesCount" / Int16ul,
 
     If(lambda ctx: ctx.MaybeHasTextureCoordinates,
-        Array(lambda ctx: ctx.VerticiesCount,
-            Struct("MaybeTextureCoordinates",
-                LFloat32("x"),
-                LFloat32("Y"),
+        "MaybeTextureCoordinates" / Array(lambda ctx: ctx.VerticiesCount,
+            Struct(
+                "x" / Float32l,
+                "y" / Float32l,
             )
         )
     ),
 
     If(lambda ctx: ctx.HasColors,
-        Array(lambda ctx: ctx.VerticiesCount,
-            Struct("Colors",
-                ULInt8("r"),
-                ULInt8("g"),
-                ULInt8("b"),
-                ULInt8("a"),
+        "Colors" / Array(lambda ctx: ctx.VerticiesCount,
+            Struct(
+                "r" / Int8ul,
+                "g" / Int8ul,
+                "b" / Int8ul,
+                "a" / Int8ul,
             )
         )
     ),
 
-    ULInt16("FacesEdgesCount"),
-    Array(lambda ctx: ctx.FacesEdgesCount / ctx.FaceEdges,
-        Struct("Faces",
-            Array(lambda ctx: ctx._.FaceEdges, ULInt16("Verticies"))
+    "FacesEdgesCount" / Int16ul,
+    "Faces" / Array(lambda ctx: ctx.FacesEdgesCount / ctx.FaceEdges,
+        Struct(
+            "Verticies" / Array(lambda ctx: ctx._.FaceEdges, Int16ul)
         )
     ),
 
-    Array(lambda ctx: ctx.MeshesCount,
-        Struct("Meshes",
-            Array(lambda ctx: ctx._.VerticiesCount,
-                Struct("Verticies",
-                    LFloat32("x"),
-                    LFloat32("y"),
-                    LFloat32("z"),
+    "Meshes" / Array(lambda ctx: ctx.MeshesCount,
+        Struct(
+            "Verticies" / Array(lambda ctx: ctx._.VerticiesCount,
+                Struct(
+                    "x" / Float32l,
+                    "y" / Float32l,
+                    "z" / Float32l,
                     If(lambda ctx: ctx._._.HasNormals,
-                        Struct("Normal",
-                            LFloat32("x"),
-                            LFloat32("y"),
-                            LFloat32("z"),
+                        "Normal" / Struct(
+                            "x" / Float32l,
+                            "y" / Float32l,
+                            "z" / Float32l,
                         )
                     )
                 )
