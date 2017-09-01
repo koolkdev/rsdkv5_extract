@@ -1443,6 +1443,7 @@ Data/Stages/MMZ/StageConfig.bin
 Data/Stages/MMZ/TileConfig.bin
 Data/Stages/MSZ/16x16Tiles.gif
 Data/Stages/MSZ/Scene1.bin
+Data/Stages/MSZ/Scene1K.bin
 Data/Stages/MSZ/Scene2.bin
 Data/Stages/MSZ/StageConfig.bin
 Data/Stages/MSZ/TileConfig.bin
@@ -1476,6 +1477,7 @@ Data/Stages/Puyo/StageConfig.bin
 Data/Stages/Puyo/TileConfig.bin
 Data/Stages/SPZ1/16x16Tiles.gif
 Data/Stages/SPZ1/Scene1.bin
+Data/Stages/SPZ1/Scene1D.bin
 Data/Stages/SPZ1/StageConfig.bin
 Data/Stages/SPZ1/TileConfig.bin
 Data/Stages/SPZ2/16x16Tiles.gif
