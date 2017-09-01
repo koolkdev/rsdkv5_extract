@@ -633,6 +633,7 @@ Data/Sprites/Eggman/EggmanAll.bin
 Data/Sprites/Eggman/EggmanButton.gif
 Data/Sprites/Eggman/EggmanCPZ.bin
 Data/Sprites/Eggman/EggmanFBZ.bin
+Data/Sprites/Eggman/EggmanGHZ.bin
 Data/Sprites/Eggman/EggmanGHZCutt.bin
 Data/Sprites/Eggman/EggmanGHZCutt.gif
 Data/Sprites/Eggman/EggmanGacha.gif
@@ -1175,6 +1176,7 @@ Data/Sprites/SSZ1/HotaruHiWatt.gif
 Data/Sprites/SSZ1/HotaruMKII.bin
 Data/Sprites/SSZ1/JunctionWheel.bin
 Data/Sprites/SSZ1/Kabasira.bin
+Data/Sprites/SSZ1/Kabasira_old.bin
 Data/Sprites/SSZ1/Kanabun.bin
 Data/Sprites/SSZ1/Laser.gif
 Data/Sprites/SSZ1/LaunchSpring.bin
@@ -1202,6 +1204,7 @@ Data/Sprites/SSZ2/Hotaru.bin
 Data/Sprites/SSZ2/HotaruMKII.bin
 Data/Sprites/SSZ2/JunctionWheel.bin
 Data/Sprites/SSZ2/Kabasira.bin
+Data/Sprites/SSZ2/Kabasira_old.bin
 Data/Sprites/SSZ2/Kanabun.bin
 Data/Sprites/SSZ2/Laser.gif
 Data/Sprites/SSZ2/LaunchSpring.bin
@@ -1381,6 +1384,13 @@ Data/Stages/ERZ/Scene1.bin
 Data/Stages/ERZ/StageConfig.bin
 Data/Stages/ERZ/TileConfig.bin
 Data/Stages/Ending/16x16Tiles.gif
+Data/Stages/Ending/SceneBK.bin
+Data/Stages/Ending/SceneBS.bin
+Data/Stages/Ending/SceneBT.bin
+Data/Stages/Ending/SceneC.bin
+Data/Stages/Ending/SceneG.bin
+Data/Stages/Ending/SceneT.bin
+Data/Stages/Ending/SceneTK.bin
 Data/Stages/Ending/StageConfig.bin
 Data/Stages/FBZ/16x16Tiles.gif
 Data/Stages/FBZ/Scene1.bin
