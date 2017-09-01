@@ -1,0 +1,18 @@
+init:
+- cmd: SET PATH=C:\Python27;C:\Python27\Scripts;%PATH%
+
+install:
+  - pip install construct
+  - pip install pyinstaller
+
+build_script:
+  - pyinstaller -F rsdkv5_extract.py
+  - pyinstaller -F rsdkv5_pack.py
+  - pyinstaller -F mdl2stl.py
+  - copy sonic_mania_files_list.txt static_objects_list.txt unknown_keys.txt dist
+
+after_build:
+  - 7z a rsdkv5-tools-v%APPVEYOR_BUILD_VERSION%.zip dist\*
+
+artifacts:
+  - path: rsdkv5-tools-v%APPVEYOR_BUILD_VERSION%.zip
