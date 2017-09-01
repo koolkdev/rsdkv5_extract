@@ -61,6 +61,8 @@ MDL = Struct("MDL",
     )
 )
 
+def write_vertex(vertex):
+    output.write("      vertex %f %f %f\n" % (vertex.x, vertex.y, vertex.z))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -72,8 +74,7 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     mdl = MDL.parse(open(sys.argv[1], "rb").read())
-    if mdl.FaceEdges != 3:
-        # TODO..
+    if not 3 <= mdl.FaceEdges <= 4:
         print "Unsupported model"
         sys.exit(-1)
     # TODO: Colors (need to be binary stl)
@@ -91,10 +92,18 @@ if __name__ == "__main__":
             # TODO: normal per vertex (need other file format?)
             output.write("  facet normal 0 0 0\n")
             output.write("    outer loop\n")
-            for i in xrange(mdl.FaceEdges):
-                vertex = mesh.Verticies[face.Verticies[i]]
-                output.write("      vertex %f %f %f\n" % (vertex.x, vertex.y, vertex.z))
+            write_vertex(mesh.Verticies[face.Verticies[0]])
+            write_vertex(mesh.Verticies[face.Verticies[1]])
+            write_vertex(mesh.Verticies[face.Verticies[2]])
             output.write("    endloop\n")
             output.write("  endfacet\n")
+            if mdl.FaceEdges == 4:
+                output.write("  facet normal 0 0 0\n")
+                output.write("    outer loop\n")
+                write_vertex(mesh.Verticies[face.Verticies[0]])
+                write_vertex(mesh.Verticies[face.Verticies[2]])
+                write_vertex(mesh.Verticies[face.Verticies[3]])
+                output.write("    endloop\n")
+                output.write("  endfacet\n")
         output.write("endsolid\n")
         output.close()
