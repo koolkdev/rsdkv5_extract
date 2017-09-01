@@ -1525,6 +1525,9 @@ Data/Stages/SpecialBS/Scene6.bin
 Data/Stages/SpecialBS/Scene7.bin
 Data/Stages/SpecialBS/Scene8.bin
 Data/Stages/SpecialBS/Scene9.bin
+Data/Stages/SpecialBS/SceneTest3.bin
+Data/Stages/SpecialBS/SceneTest7.bin
+Data/Stages/SpecialBS/SceneTest8.bin
 Data/Stages/SpecialBS/StageConfig.bin
 Data/Stages/TMZ1/16x16Tiles.gif
 Data/Stages/TMZ1/Scene1.bin
