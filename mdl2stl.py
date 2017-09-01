@@ -77,16 +77,24 @@ if __name__ == "__main__":
         print "Unsupported model"
         sys.exit(-1)
     # TODO: Colors (need to be binary stl)
-    output = open(sys.argv[1][:-4] + ".stl", "w")
-    output.write("solid obj\n")
-    for face in mdl.Faces:
-        # TODO: normal per vertex (need other file format?)
-        output.write("  facet normal 0 0 0\n")
-        output.write("    outer loop\n")
-        for i in xrange(mdl.FaceEdges):
-            vertex = mdl.Meshes[0].Verticies[face.Verticies[i]]
-            output.write("      vertex %f %f %f\n" % (vertex.x, vertex.y, vertex.z))
-        output.write("    endloop\n")
-        output.write("  endfacet\n")
-    output.write("endsolid\n")
-    output.close()
+    base_name = sys.argv[1][:-4]
+
+    file_index = 0
+    for mesh in mdl.Meshes:
+        if len(mdl.Meshes) > 1:
+            output = open(base_name + "_%d.stl" % file_index, "w")
+            file_index += 1
+        else:
+            output = open(base_name + ".stl", "w")
+        output.write("solid obj\n")
+        for face in mdl.Faces:
+            # TODO: normal per vertex (need other file format?)
+            output.write("  facet normal 0 0 0\n")
+            output.write("    outer loop\n")
+            for i in xrange(mdl.FaceEdges):
+                vertex = mesh.Verticies[face.Verticies[i]]
+                output.write("      vertex %f %f %f\n" % (vertex.x, vertex.y, vertex.z))
+            output.write("    endloop\n")
+            output.write("  endfacet\n")
+        output.write("endsolid\n")
+        output.close()
