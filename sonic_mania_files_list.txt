@@ -623,7 +623,9 @@ Data/Sprites/Dev/Font.bin
 Data/Sprites/Dev/Font.gif
 Data/Sprites/Editor/CutsceneHBH.bin
 Data/Sprites/Editor/CutsceneHBH.gif
+Data/Sprites/Editor/EditorIcons.bin
 Data/Sprites/Editor/Icons.gif
+Data/Sprites/Editor/PlayerIcons.bin
 Data/Sprites/Eggman/EggMobile.bin
 Data/Sprites/Eggman/EggMobile.gif
 Data/Sprites/Eggman/Eggman1.gif
@@ -957,6 +959,8 @@ Data/Sprites/PSZ1/Boss.gif
 Data/Sprites/PSZ1/Crate.bin
 Data/Sprites/PSZ1/DoorTrigger.bin
 Data/Sprites/PSZ1/Dragonfly.bin
+Data/Sprites/PSZ1/Enemies-Old.gif
+Data/Sprites/PSZ1/Enemies-Temp.gif
 Data/Sprites/PSZ1/Enemies.gif
 Data/Sprites/PSZ1/Ice.bin
 Data/Sprites/PSZ1/Ink.bin
@@ -986,6 +990,7 @@ Data/Sprites/PSZ2/Boss.gif
 Data/Sprites/PSZ2/Boss2.gif
 Data/Sprites/PSZ2/ControlPanel.bin
 Data/Sprites/PSZ2/Dragonfly.bin
+Data/Sprites/PSZ2/Enemies-Temp.gif
 Data/Sprites/PSZ2/Enemies.gif
 Data/Sprites/PSZ2/FrostThrower.bin
 Data/Sprites/PSZ2/Ice.bin
@@ -1327,6 +1332,7 @@ Data/Sprites/UI/PauseTC.gif
 Data/Sprites/UI/Picture.bin
 Data/Sprites/UI/SaveSelect.bin
 Data/Sprites/UI/SaveSelectEN.gif
+Data/Sprites/UI/SaveSelect_old.gif
 Data/Sprites/UI/SmallFont.bin
 Data/Sprites/UI/SmallFont1.gif
 Data/Sprites/UI/SmallFont2.gif
@@ -1367,6 +1373,9 @@ Data/Stages/Credits/16x16Tiles.gif
 Data/Stages/Credits/Scene1.bin
 Data/Stages/Credits/StageConfig.bin
 Data/Stages/Credits/TileConfig.bin
+Data/Stages/DAGarden/16x16Tiles.gif
+Data/Stages/DAGarden/Scene1.bin
+Data/Stages/DAGarden/StageConfig.bin
 Data/Stages/ERZ/16x16Tiles.gif
 Data/Stages/ERZ/Scene1.bin
 Data/Stages/ERZ/StageConfig.bin
