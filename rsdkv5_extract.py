@@ -49,7 +49,7 @@ if __name__ == "__main__":
             if not os.path.exists(os.path.dirname(path)):
                 os.makedirs(os.path.dirname(path))
             print "Extracting %s" % filename
-            if f.is_encrypted:
+            if f.is_encrypted and f.filename_hash not in unknown_keys:
                 open(path, "wb").write(f.get_raw_data())
             else:
                 open(path, "wb").write(f.get_data())
