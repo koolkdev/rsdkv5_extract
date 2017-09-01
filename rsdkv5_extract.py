@@ -54,7 +54,7 @@ if __name__ == "__main__":
             else:
                 open(path, "wb").write(f.get_data())
 
-            if f.is_encrypted:
+            if f.is_encrypted and f.filename_hash not in unknown_keys:
                 filename = ".unknown_encrypted_guess/%s" % f.filename_hash.encode("hex")
                 path = filename
                 if output_path is not None:
