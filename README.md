@@ -1,5 +1,7 @@
 # Sonic Main Tools
 
+## [Download (.exe in .zip)](https://ci.appveyor.com/project/koolkdev/rsdkv5-extract/build/artifacts)
+
 ## Data.rsdk status
 Named files:  1664/1677 (99.22%)  
 Decrypted files: 1674/1677 (99.82%)
