@@ -14,7 +14,7 @@ CFG = Struct(
     "Magic" / Const("CFG\0"),
 
     # Bool - if to use the objects specified in GameObject.bin
-    "UseGameObject" / Byte,
+    "UseGameObjects" / Byte,
 
     "Objects" / PrefixedArray(Byte, String),
 
