@@ -6,35 +6,19 @@ import parse_game_config
 import parse_stage_config
 
 class Window(QtGui.QMainWindow):
-
     def __init__(self):
         super(Window, self).__init__()
 
-        choose_file = QtGui.QFileDialog.getOpenFileName(self, "Open Config File", "", "Sonic Mania Config File (GameConfig.bin; StageConfig.bin)");
-
-        if not choose_file:
+        if not self.open_file_dlg():
             sys.exit()
 
-        self.filename = str(choose_file)
-        try:
-            if self.filename.endswith("GameConfig.bin"):
-                self.cfg = parse_game_config.CFG.parse(open(self.filename, "rb").read())
-            else:
-                self.cfg = parse_stage_config.CFG.parse(open(self.filename, "rb").read())
-        except:
-            msg = QtGui.QMessageBox()
-            msg.setIcon(QtGui.QMessageBox.Critical)
-
-            msg.setText("Failed to load configuration file")
-            msg.setWindowTitle("Error")
-            msg.setStandardButtons(QtGui.QMessageBox.Close)
-
-            msg.exec_()
-            sys.exit()
-
-        self.setGeometry(50, 50, 530, 560)
+        self.setGeometry(50, 50, 530, 580)
         self.setWindowTitle("Sonic Mania Palette Editor")
         #self.setWindowIcon(QtGui.QIcon('pythonlogo.png'))
+
+        openAction = QtGui.QAction("&Open", self)
+        openAction.setShortcut("Ctrl+S")
+        openAction.triggered.connect(self.open)
 
         saveAction = QtGui.QAction("&Save", self)
         saveAction.setShortcut("Ctrl+S")
@@ -48,13 +32,19 @@ class Window(QtGui.QMainWindow):
 
         mainMenu = self.menuBar()
         fileMenu = mainMenu.addMenu('&File')
+        fileMenu.addAction(openAction)
         fileMenu.addAction(saveAction)
         fileMenu.addAction(exitAction)
+
+        self.toolBar = self.addToolBar("Toolbar")
+        self.toolBar.setMovable(False)
+        self.toolBar.addAction(openAction)
+        self.toolBar.addAction(saveAction)
 
         self.checkboxs = []
         for i in xrange(16):
             checkBox = QtGui.QCheckBox("", self)
-            checkBox.move(10, 70 + i * 30)
+            checkBox.move(10, 90 + i * 30)
             checkBox.stateChanged.connect(partial(self.click_checkbox, i))
             self.checkboxs.append(checkBox)
 
@@ -67,14 +57,14 @@ class Window(QtGui.QMainWindow):
                 pixels.append(pixel)
                 pixel.resize(25, 25)
                 self.update_pixel_color(i, j, None)
-                pixel.move(34 + j * 30, 72 + i * 30)
+                pixel.move(34 + j * 30, 92 + i * 30)
                 pixel.clicked.connect(partial(self.set_color, i, j))
 
         self.palette_buttons = []
         for i in xrange(8):
             palette = QtGui.QPushButton("#%d" % i, self)
             palette.resize(60, palette.height())
-            palette.move(15 + i * 63, 32)
+            palette.move(15 + i * 63, 52)
             palette.setCheckable(True)
             palette.clicked.connect(partial(self.load_palette, i))
             self.palette_buttons.append(palette)
@@ -85,27 +75,52 @@ class Window(QtGui.QMainWindow):
 
         self.show()
 
+    def open_file_dlg(self):
+        settings = QtCore.QSettings()
+        choose_file = QtGui.QFileDialog.getOpenFileName(self, "Open Config File", settings.value("default_dir").toString(), "Sonic Mania Config File (GameConfig.bin; StageConfig.bin)");
+
+        if not choose_file:
+            return False
+        settings.setValue("default_dir", QtCore.QDir().absoluteFilePath(choose_file))
+
+        self.filename = str(choose_file)
+        try:
+            if self.filename.endswith("GameConfig.bin"):
+                self.cfg = parse_game_config.CFG.parse(open(self.filename, "rb").read())
+            else:
+                self.cfg = parse_stage_config.CFG.parse(open(self.filename, "rb").read())
+        except:
+            self._error_message("Failed to load configuration file")
+            return False
+        return True
+
+    def _error_message(self, text):
+        msg = QtGui.QMessageBox()
+        msg.setIcon(QtGui.QMessageBox.Critical)
+
+        msg.setText(text)
+        msg.setWindowTitle("Error")
+        msg.setStandardButtons(QtGui.QMessageBox.Close)
+
+        msg.exec_()
+
+    def open(self):
+        if not self.changes or self._save_changes_dlg():
+            if self.open_file_dlg():
+                self.load_palette(0)
+
     def save(self):
         if self.changes:
-            choice = QtGui.QMessageBox.question(self, 'Warning',
-                                                "Are you sure that you want to save the changes?",
-                                                QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
-            if choice == QtGui.QMessageBox.Yes:
-                try:
-                    if self.filename.endswith("GameConfig.bin"):
-                        open(self.filename, "wb").write(parse_game_config.CFG.build(self.cfg))
-                    else:
-                        open(self.filename, "wb").write(parse_stage_config.CFG.build(self.cfg))
-                    self.changes = False
-                except:
-                    msg = QtGui.QMessageBox()
-                    msg.setIcon(QtGui.QMessageBox.Critical)
-
-                    msg.setText("Failed to save configuration file")
-                    msg.setWindowTitle("Error")
-                    msg.setStandardButtons(QtGui.QMessageBox.Close)
-
-                    msg.exec_()
+            try:
+                if self.filename.endswith("GameConfig.bin"):
+                    open(self.filename, "wb").write(parse_game_config.CFG.build(self.cfg))
+                else:
+                    open(self.filename, "wb").write(parse_stage_config.CFG.build(self.cfg))
+                self.changes = False
+            except:
+                self._error_message("Failed to save configuration file")
+                return False
+        return True
 
     def update_pixel_color(self, col, row, color):
         if color is None:
@@ -158,23 +173,28 @@ class Window(QtGui.QMainWindow):
                 self.cfg.Palettes[self.current_palette].Columns[col].Pixels[row] = pixel
                 self.update_pixel_color(col, row, pixel)
 
+    def _save_changes_dlg(self):
+        choice = QtGui.QMessageBox.question(self, 'Warning',
+                                                  "Are you want to save the changes?",
+                                                  QtGui.QMessageBox.Yes | QtGui.QMessageBox.No | QtGui.QMessageBox.Cancel)
+        if choice == QtGui.QMessageBox.No:
+            return True
+        elif choice == QtGui.QMessageBox.Yes:
+            return self.save()
+        else:
+            return False
+
     def close_application(self):
         if not self.changes:
             sys.exit()
-        choice = QtGui.QMessageBox.question(self, 'Warning',
-                                            "There are unsaved changes, exit?",
-                                            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
-        if choice == QtGui.QMessageBox.Yes:
+        if self._save_changes_dlg():
             sys.exit()
         else:
             pass
 
     def closeEvent(self, event):
         if self.changes:
-            choice = QtGui.QMessageBox.question(self, 'Warning',
-                                                "There are unsaved changes, exit?",
-                                                QtGui.QMessageBox.Yes | QtGui.QMessageBox.No)
-            if choice == QtGui.QMessageBox.Yes:
+            if self._save_changes_dlg():
                 event.accept()
             else:
                 event.ignore()
@@ -183,6 +203,9 @@ class Window(QtGui.QMainWindow):
 
 def run():
     app = QtGui.QApplication(sys.argv)
+    app.setApplicationName("Sonic Mania Palette Editor")
+    app.setOrganizationName("koolkdev")
+    app.setOrganizationDomain("github.com/koolkdev")
     GUI = Window()
     sys.exit(app.exec_())
 
