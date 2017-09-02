@@ -1,6 +1,6 @@
 # Sonic Main Tools
 
-## [Download (.exe in .zip)](https://ci.appveyor.com/project/koolkdev/rsdkv5-extract/build/artifacts)
+### [Download (Windows binary)](https://github.com/koolkdev/rsdkv5_extract/releases/latest)
 
 ## Data.rsdk status
 Named files:  1664/1677 (99.22%)  
