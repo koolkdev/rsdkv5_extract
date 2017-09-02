@@ -70,11 +70,14 @@ class Window(QtGui.QMainWindow):
                 pixel.move(34 + j * 30, 72 + i * 30)
                 pixel.clicked.connect(partial(self.set_color, i, j))
 
+        self.palette_buttons = []
         for i in xrange(8):
             palette = QtGui.QPushButton("#%d" % i, self)
             palette.resize(60, palette.height())
             palette.move(15 + i * 63, 32)
+            palette.setCheckable(True)
             palette.clicked.connect(partial(self.load_palette, i))
+            self.palette_buttons.append(palette)
 
         self.current_palette = 0
         self.changes = False
@@ -119,7 +122,9 @@ class Window(QtGui.QMainWindow):
 
     def load_palette(self, index):
         before_changes = self.changes
+        self.palette_buttons[self.current_palette].setChecked(False)
         self.current_palette = index
+        self.palette_buttons[self.current_palette].setChecked(True)
         for i in xrange(16):
             if self.cfg.Palettes[index].Bitmap & (1 << i):
                 self.checkboxs[i].setChecked(True)
