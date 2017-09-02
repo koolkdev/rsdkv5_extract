@@ -9,7 +9,7 @@ class Window(QtGui.QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
 
-        if not self.open_file_dlg():
+        if not self.open_config_file():
             sys.exit()
 
         self.setGeometry(50, 50, 530, 580)
@@ -17,7 +17,7 @@ class Window(QtGui.QMainWindow):
         #self.setWindowIcon(QtGui.QIcon('pythonlogo.png'))
 
         openAction = QtGui.QAction("&Open", self)
-        openAction.setShortcut("Ctrl+S")
+        openAction.setShortcut("Ctrl+O")
         openAction.triggered.connect(self.open)
 
         saveAction = QtGui.QAction("&Save", self)
@@ -28,18 +28,28 @@ class Window(QtGui.QMainWindow):
         exitAction.setShortcut("Ctrl+Q")
         exitAction.triggered.connect(self.close_application)
 
+        importGifAction = QtGui.QAction("&Import palette from GIF", self)
+        importGifAction.triggered.connect(partial(self.import_palette, False))
+
+        importGifAction2 = QtGui.QAction("&Merge palette from GIF", self)
+        importGifAction2.triggered.connect(partial(self.import_palette, True))
+
         self.statusBar()
 
         mainMenu = self.menuBar()
         fileMenu = mainMenu.addMenu('&File')
         fileMenu.addAction(openAction)
         fileMenu.addAction(saveAction)
+        fileMenu.addAction(importGifAction)
+        fileMenu.addAction(importGifAction2)
         fileMenu.addAction(exitAction)
 
         self.toolBar = self.addToolBar("Toolbar")
         self.toolBar.setMovable(False)
         self.toolBar.addAction(openAction)
         self.toolBar.addAction(saveAction)
+        self.toolBar.addAction(importGifAction)
+        self.toolBar.addAction(importGifAction2)
 
         self.checkboxs = []
         for i in xrange(16):
@@ -75,15 +85,22 @@ class Window(QtGui.QMainWindow):
 
         self.show()
 
-    def open_file_dlg(self):
+    def open_file_dlg(self, title, settings_key, filter):
         settings = QtCore.QSettings()
-        choose_file = QtGui.QFileDialog.getOpenFileName(self, "Open Config File", settings.value("default_dir").toString(), "Sonic Mania Config File (GameConfig.bin; StageConfig.bin)");
+        choose_file = QtGui.QFileDialog.getOpenFileName(self, title, settings.value(settings_key).toString(), filter);
 
         if not choose_file:
-            return False
-        settings.setValue("default_dir", QtCore.QDir().absoluteFilePath(choose_file))
+            return None
+        settings.setValue(settings_key, QtCore.QDir().absoluteFilePath(choose_file))
 
-        self.filename = str(choose_file)
+        return str(choose_file)
+
+    def open_config_file(self):
+        filename = self.open_file_dlg("Open Config File", "default_dir", "Sonic Mania Config File (GameConfig.bin; StageConfig.bin)")
+        if filename is None:
+            return False
+
+        self.filename = filename
         try:
             if self.filename.endswith("GameConfig.bin"):
                 self.cfg = parse_game_config.CFG.parse(open(self.filename, "rb").read())
@@ -93,6 +110,44 @@ class Window(QtGui.QMainWindow):
             self._error_message("Failed to load configuration file")
             return False
         return True
+
+    def import_palette(self, merge):
+        filename = self.open_file_dlg("Select a file", "gif_path", "GIF file (*.gif)")
+        if filename is None:
+            return
+        f = open(filename, "rb")
+        if f.read(6) != "GIF89a":
+            self._error_message("Invalid GIF File!")
+            return
+        # Skip
+        f.read(7)
+        palette = f.read(0x300)
+        if len(palette) != 0x300:
+            self._error_message("Invalid GIF File!")
+            return
+        for i in xrange(16):
+            pixels = []
+            not_blank = not merge
+            for j in xrange(16):
+                r = ord(palette[i * 0x30 + j * 3])
+                g = ord(palette[i * 0x30 + j * 3 + 1])
+                b = ord(palette[i * 0x30 + j * 3 + 1 + 1])
+                pixel = {"R": r, "G": g, "B": b}
+                if merge:
+                    if r == 255 and g == 0 and b == 255:
+                        # blank color
+                        if self.cfg.Palettes[self.current_palette].Bitmap & (1 << i):
+                            # load current pixel
+                            pixel = self.cfg.Palettes[self.current_palette].Columns[i].Pixels[j]
+                    else:
+                        not_blank = True
+                pixels.append(pixel)
+            if not_blank:
+                self.cfg.Palettes[self.current_palette].Columns[i].Pixels = pixels
+                self.cfg.Palettes[self.current_palette].Bitmap |= 1 << i
+                self.checkboxs[i].setChecked(True)
+                self.update_column_colors(i, self.cfg.Palettes[self.current_palette].Columns[i].Pixels)
+        self.changes = True
 
     def _error_message(self, text):
         msg = QtGui.QMessageBox()
@@ -106,7 +161,7 @@ class Window(QtGui.QMainWindow):
 
     def open(self):
         if not self.changes or self._save_changes_dlg():
-            if self.open_file_dlg():
+            if self.open_config_file():
                 self.load_palette(0)
 
     def save(self):
