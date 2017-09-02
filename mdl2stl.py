@@ -13,7 +13,7 @@ MDL = Struct(
     "MeshesCount" / Int16ul,
 
     If(lambda ctx: ctx.MaybeHasTextureCoordinates,
-        "MaybeTextureCoordinates" / Array(lambda ctx: ctx.VerticiesCount,
+        "MaybeTextureCoordinates" / Array(this.VerticiesCount,
             Struct(
                 "x" / Float32l,
                 "y" / Float32l,
@@ -22,7 +22,7 @@ MDL = Struct(
     ),
 
     If(lambda ctx: ctx.HasColors,
-        "Colors" / Array(lambda ctx: ctx.VerticiesCount,
+        "Colors" / Array(this.VerticiesCount,
             Struct(
                 "r" / Int8ul,
                 "g" / Int8ul,
@@ -33,20 +33,20 @@ MDL = Struct(
     ),
 
     "FacesEdgesCount" / Int16ul,
-    "Faces" / Array(lambda ctx: ctx.FacesEdgesCount / ctx.FaceEdges,
+    "Faces" / Array(this.FacesEdgesCount / this.FaceEdges,
         Struct(
-            "Verticies" / Array(lambda ctx: ctx._.FaceEdges, Int16ul)
+            "Verticies" / Array(this._.FaceEdges, Int16ul)
         )
     ),
 
-    "Meshes" / Array(lambda ctx: ctx.MeshesCount,
+    "Meshes" / Array(this.MeshesCount,
         Struct(
-            "Verticies" / Array(lambda ctx: ctx._.VerticiesCount,
+            "Verticies" / Array(this._.VerticiesCount,
                 Struct(
                     "x" / Float32l,
                     "y" / Float32l,
                     "z" / Float32l,
-                    If(lambda ctx: ctx._._.HasNormals,
+                    If(this._._.HasNormals,
                         "Normal" / Struct(
                             "x" / Float32l,
                             "y" / Float32l,
