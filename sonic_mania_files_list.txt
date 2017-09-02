@@ -558,6 +558,8 @@ Data/Sprites/AIZ/Claw.bin
 Data/Sprites/AIZ/Decoration.bin
 Data/Sprites/AIZ/Objects.gif
 Data/Sprites/AIZ/Platform.bin
+Data/Sprites/Blank/Objects.gif
+Data/Sprites/Blank/Platform.bin
 Data/Sprites/Blueprint/BuzzBomber.bin
 Data/Sprites/Blueprint/CheckerBall.bin
 Data/Sprites/Blueprint/CircleBumper.bin
