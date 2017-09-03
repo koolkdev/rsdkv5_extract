@@ -289,7 +289,7 @@ class Window(QtGui.QMainWindow):
     def click_checkbox(self, col, state):
         if state == QtCore.Qt.Checked:
             if not self.cfg.Palettes[self.current_palette].Columns[col].Pixels:
-                pixels = [{"R":0,"G":0,"B":0} for i in xrange(16)]
+                pixels = [{"R": 255, "G": 0,"B": 255} for i in xrange(16)]
                 self.cfg.Palettes[self.current_palette].Columns[col].Pixels = pixels
             self.cfg.Palettes[self.current_palette].Bitmap |= 1 << col
             self.update_column_colors(col, self.cfg.Palettes[self.current_palette].Columns[col].Pixels)
