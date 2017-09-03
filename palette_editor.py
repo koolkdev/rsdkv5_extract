@@ -1,9 +1,21 @@
 import sys
 from PyQt4 import QtGui, QtCore
 from functools import partial
+from construct import *
 
 import parse_game_config
 import parse_stage_config
+
+PAL = Struct(
+    "RIFF" / Const("RIFF"),
+    "DataSize" / Const(Int32ul, 0x410),
+    "Type" / Const("PAL "),
+    "ChunkType" / Const("data"),
+    "ChunkSize" / Const(Int32ul, 0x404),
+    "PALVersion" / Const(Int16ul, 0x300),
+    "PALEntries" / Const(Int16ul, 0x100),
+    "Data" / Bytes(0x400),
+)
 
 class Window(QtGui.QMainWindow):
     def __init__(self):
@@ -28,11 +40,14 @@ class Window(QtGui.QMainWindow):
         exitAction.setShortcut("Ctrl+Q")
         exitAction.triggered.connect(self.close_application)
 
-        importGifAction = QtGui.QAction("&Import palette from GIF", self)
-        importGifAction.triggered.connect(partial(self.import_palette, False))
+        importPaletteAction = QtGui.QAction("&Import Palette", self)
+        importPaletteAction.triggered.connect(self.import_palette_file)
 
-        importGifAction2 = QtGui.QAction("&Merge palette from GIF", self)
-        importGifAction2.triggered.connect(partial(self.import_palette, True))
+        exportPaletteAction = QtGui.QAction("&Export Palette", self)
+        exportPaletteAction.triggered.connect(self.export_palette_file)
+
+        importGifAction = QtGui.QAction("&Import palette from GIF", self)
+        importGifAction.triggered.connect(self.import_gif_palette)
 
         self.statusBar()
 
@@ -40,16 +55,18 @@ class Window(QtGui.QMainWindow):
         fileMenu = mainMenu.addMenu('&File')
         fileMenu.addAction(openAction)
         fileMenu.addAction(saveAction)
+        fileMenu.addAction(importPaletteAction)
+        fileMenu.addAction(exportPaletteAction)
         fileMenu.addAction(importGifAction)
-        fileMenu.addAction(importGifAction2)
         fileMenu.addAction(exitAction)
 
         self.toolBar = self.addToolBar("Toolbar")
         self.toolBar.setMovable(False)
         self.toolBar.addAction(openAction)
         self.toolBar.addAction(saveAction)
+        self.toolBar.addAction(importPaletteAction)
+        self.toolBar.addAction(exportPaletteAction)
         self.toolBar.addAction(importGifAction)
-        self.toolBar.addAction(importGifAction2)
 
         self.checkboxs = []
         for i in xrange(16):
@@ -95,6 +112,16 @@ class Window(QtGui.QMainWindow):
 
         return str(choose_file)
 
+    def save_file_dlg(self, title, settings_key, filter):
+        settings = QtCore.QSettings()
+        choose_file = QtGui.QFileDialog.getSaveFileName(self, title, settings.value(settings_key).toString(), filter);
+
+        if not choose_file:
+            return None
+        settings.setValue(settings_key, QtCore.QDir().absoluteFilePath(choose_file))
+
+        return str(choose_file)
+
     def open_config_file(self):
         filename = self.open_file_dlg("Open Config File", "default_dir", "Sonic Mania Config File (GameConfig.bin; StageConfig.bin)")
         if filename is None:
@@ -111,7 +138,7 @@ class Window(QtGui.QMainWindow):
             return False
         return True
 
-    def import_palette(self, merge):
+    def import_gif_palette(self):
         filename = self.open_file_dlg("Select a file", "gif_path", "GIF file (*.gif)")
         if filename is None:
             return
@@ -125,29 +152,84 @@ class Window(QtGui.QMainWindow):
         if len(palette) != 0x300:
             self._error_message("Invalid GIF File!")
             return
+        self.import_palette(palette)
+
+    def import_palette_file(self):
+        filename = self.open_file_dlg("Select a file", "palette_path", "Palette file (*.act; *.pal)")
+        if filename is None:
+            return
+        if filename.lower().endswith(".act"):
+            palette = open(filename, "rb").read()
+            if len(palette) != 0x300:
+                self._error_message("Invalid ACT File!")
+                return
+            self.import_palette(palette)
+        elif filename.lower().endswith(".pal"):
+            try:
+                pal = PAL.parse(open(filename, "rb").read())
+            except:
+                self._error_message("Unsupported PAL file")
+                return
+            palette = "".join(pal.Data[i:i+3] for i in xrange(0, 0x400, 4))
+            self.import_palette(palette)
+        else:
+            self._error_message("Invalid File Type!")
+
+    def import_palette(self, data):
         for i in xrange(16):
             pixels = []
-            not_blank = not merge
+            not_blank = False
             for j in xrange(16):
-                r = ord(palette[i * 0x30 + j * 3])
-                g = ord(palette[i * 0x30 + j * 3 + 1])
-                b = ord(palette[i * 0x30 + j * 3 + 1 + 1])
+                r = ord(data[i * 0x30 + j * 3])
+                g = ord(data[i * 0x30 + j * 3 + 1])
+                b = ord(data[i * 0x30 + j * 3 + 1 + 1])
                 pixel = {"R": r, "G": g, "B": b}
-                if merge:
-                    if r == 255 and g == 0 and b == 255:
-                        # blank color
-                        if self.cfg.Palettes[self.current_palette].Bitmap & (1 << i):
-                            # load current pixel
-                            pixel = self.cfg.Palettes[self.current_palette].Columns[i].Pixels[j]
-                    else:
-                        not_blank = True
+                if not (r == 255 and g == 0 and b == 255):
+                    not_blank = True
                 pixels.append(pixel)
             if not_blank:
                 self.cfg.Palettes[self.current_palette].Columns[i].Pixels = pixels
                 self.cfg.Palettes[self.current_palette].Bitmap |= 1 << i
                 self.checkboxs[i].setChecked(True)
                 self.update_column_colors(i, self.cfg.Palettes[self.current_palette].Columns[i].Pixels)
+            else:
+                self.cfg.Palettes[self.current_palette].Bitmap &= ~(1 << i)
+                self.checkboxs[i].setChecked(False)
+                self.update_column_colors(i, None)
         self.changes = True
+
+    def get_palette_data(self):
+        data = ""
+        for i in xrange(16):
+            if self.cfg.Palettes[self.current_palette].Bitmap & (1 << i):
+                for j in xrange(16):
+                    pixel = self.cfg.Palettes[self.current_palette].Columns[i].Pixels[j]
+                    data += chr(pixel["R"]) + chr(pixel["G"]) + chr(pixel["B"])
+            else:
+                data += "\xff\x00\xff" * 16
+        return data
+
+    def export_palette_file(self):
+        filename = self.save_file_dlg("Select a file", "palette_path", "Color Table (*.act);; Microsoft Palette (*.pal)")
+        if filename is None:
+            return
+        if filename.lower().endswith(".act"):
+            try:
+                open(filename, "wb").write(self.get_palette_data())
+            except:
+                self._error_message("Failed to save palette.")
+                return
+        elif filename.lower().endswith(".pal"):
+            data = self.get_palette_data()
+            data = "".join(data[i:i+3] + '\0' for i in xrange(0, 0x300, 3))
+            data = PAL.build(dict(Data=data))
+            try:
+                open(filename, "wb").write(data)
+            except:
+                self._error_message("Failed to save palette")
+                return
+        else:
+            self._error_message("Invalid File Type!")
 
     def _error_message(self, text):
         msg = QtGui.QMessageBox()
