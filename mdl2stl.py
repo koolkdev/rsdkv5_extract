@@ -10,7 +10,7 @@ MDL = Struct(
         HasColors=4)),
     "FaceEdges" / Int8ul,  # 3 or 4
     "VerticiesCount" / Int16ul,
-    "MeshesCount" / Int16ul,
+    "FramesCount" / Int16ul,
 
     If(lambda ctx: ctx.MaybeHasTextureCoordinates,
         "MaybeTextureCoordinates" / Array(this.VerticiesCount,
@@ -39,7 +39,7 @@ MDL = Struct(
         )
     ),
 
-    "Meshes" / Array(this.MeshesCount,
+    "Frames" / Array(this.FramesCount,
         Struct(
             "Verticies" / Array(this._.VerticiesCount,
                 Struct(
@@ -79,8 +79,8 @@ if __name__ == "__main__":
     base_name = sys.argv[1][:-4]
 
     file_index = 0
-    for mesh in mdl.Meshes:
-        if len(mdl.Meshes) > 1:
+    for mesh in mdl.Frames:
+        if len(mdl.Frames) > 1:
             output = open(base_name + "_%d.stl" % file_index, "w")
             file_index += 1
         else:
