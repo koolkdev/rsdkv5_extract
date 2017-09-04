@@ -56,11 +56,11 @@ SCN = Struct(
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print "Usage: parse_scene.py SceneX.bin"
+        print("Usage: parse_scene.py SceneX.bin")
         sys.exit(-1)
 
     if not sys.argv[1].endswith(".bin"):
-        print "Expected .bin file"
+        print("Expected .bin file")
         sys.exit(-1)
 
     scene = SCN.parse(open(sys.argv[1], "rb").read())
