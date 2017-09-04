@@ -35,9 +35,9 @@ CFG = Struct(
         ))
     )),
 
-    "WavFiles" / PrefixedArray(Byte, Struct(
+    "WavConfiguration" / PrefixedArray(Byte, Struct(
         "Path" / String,
-        "Unknown" / Byte
+        "MaxConcurrentPlay" / Byte
     )),
 
     "TotalScenes" / Word,
