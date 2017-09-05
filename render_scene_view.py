@@ -1,5 +1,5 @@
 import parse_scene
-from PIL import Image
+from PIL import Image, ImageOps
 import sys
 import os
 
@@ -29,5 +29,10 @@ if __name__ == "__main__":
             for y in xrange(view.Height):
                 tile = view.Tiles[y * view.Width + x]
                 if tile != 0xffff:
-                    view_image.paste(tiles[tile & 0x3ff], (x * 16, y * 16, x * 16 + 16, y * 16 + 16))
+                    tile_image = tiles[tile & 0x3ff]
+                    if (tile >> 10) & 1:
+                        tile_image = ImageOps.mirror(tile_image)
+                    if (tile >> 10) & 2:
+                        tile_image = ImageOps.flip(tile_image)
+                    view_image.paste(tile_image, (x * 16, y * 16, x * 16 + 16, y * 16 + 16))
         view_image.save(os.path.join(os.path.dirname(sys.argv[1]), os.path.basename(sys.argv[1]) + "-" + view.Name.strip('\0') + ".png"))
