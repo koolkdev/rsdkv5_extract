@@ -5,6 +5,13 @@ String = PascalString(Byte)
 Word = Int16ul
 Dword = Int32ul
 
+def CompressedZlib(subcon):
+    # Compressed zlib, prefixed with a dword for the size of the compressed data (including the big endian dword with the size of the uncompressed data)
+    return Prefixed(Dword, FocusedSeq(1,
+        "uncompressed_length" / Int32ub,
+        "compressed_data" / Compressed(subcon, "zlib"),
+    ))
+
 SCN = Struct(
     "magic" / Const("SCN\0"),
 
@@ -22,7 +29,6 @@ SCN = Struct(
         "unknown_byte_1" / Byte,
         "unknown_byte_2" / Byte,
 
-        # Should be pow of 2?
         "Width" / Word,
         "Height" / Word,
 
@@ -36,16 +42,9 @@ SCN = Struct(
             "unknown_byte_2" / Byte,
         )),
 
-        # Compressed zlib
-        "some_array" / Prefixed(Dword, FocusedSeq(1,
-            "uncompressed_length" / Int32ub,
-            "compressed_data" / Compressed(Bytes(this.Height * 0x10), "zlib"),
-        )),
+        "some_array" / CompressedZlib(Bytes(this.Height * 0x10)),
 
-        "Tiles" / Prefixed(Dword, FocusedSeq(1,
-            "uncompressed_length" / Int32ub,
-            "compressed_data" / Compressed(Array(this.Width * this.Height, Word), "zlib"),
-        )),
+        "Tiles" / CompressedZlib(Array(this.Width * this.Height, Word))
     )),
 
     "bytecode_things" / PrefixedArray(Byte, Struct(
