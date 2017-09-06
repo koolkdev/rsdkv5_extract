@@ -4,17 +4,17 @@ import sys
 MDL = Struct(
     "Magic" / Const("MDL\0"),
     # Flags
-    Embedded(FlagsEnum(Int8ul,
+    "Flags" / FlagsEnum(Int8ul,
         HasNormals=1,
         HasUnknown=2,
-        HasColors=4)),
+        HasColors=4),
     # How many vertices in face. 3 or 4
     "FaceVerticesCount" / Int8ul,
     "VerticesCount" / Int16ul,
     "FramesCount" / Int16ul,
 
-    If(lambda ctx: ctx.HasUnknown,
-        "UnknownList" / Array(this.VerticesCount,
+    "UnknownList" / If(lambda ctx: ctx.Flags.HasUnknown,
+        Array(this.VerticesCount,
             Struct(
                 "x" / Float32l,
                 "y" / Float32l,
@@ -22,8 +22,8 @@ MDL = Struct(
         )
     ),
 
-    If(lambda ctx: ctx.HasColors,
-        "Colors" / Array(this.VerticesCount,
+    "Colors" / If(lambda ctx: ctx.Flags.HasColors,
+        Array(this.VerticesCount,
             Struct(
                 "r" / Int8ul,
                 "g" / Int8ul,
@@ -45,8 +45,8 @@ MDL = Struct(
                     "y" / Float32l,
                     "z" / Float32l,
                     # I am not sure if it is normals
-                    If(this._._.HasNormals,
-                        "Normal" / Struct(
+                    "Normal" / If(this._._.Flags.HasNormals,
+                         Struct(
                             "x" / Float32l,
                             "y" / Float32l,
                             "z" / Float32l,
