@@ -11,9 +11,6 @@ if __name__ == "__main__":
     if not input_path.endswith("/") and not input_path.endswith("\\"):
         input_path += os.path.sep
 
-    # Load known files
-    filenames = [x.strip() for x in open("sonic_mania_files_list.txt", "r").readlines()]
-
     rsdk = rsdkv5.RSDKv5()
     for root, dirnames, filenames in os.walk(input_path):
         nroot = root.replace("\\", "/")
