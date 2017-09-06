@@ -25,9 +25,9 @@ MDL = Struct(
     "Colors" / If(lambda ctx: ctx.Flags.HasColors,
         Array(this.VerticesCount,
             Struct(
-                "r" / Int8ul,
-                "g" / Int8ul,
                 "b" / Int8ul,
+                "g" / Int8ul,
+                "r" / Int8ul,
                 "a" / Int8ul,
             )
         )
