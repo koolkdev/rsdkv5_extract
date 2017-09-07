@@ -23,7 +23,7 @@ if __name__ == "__main__":
     frames = [vertices]
 
     if len(scene.meshes[0].colors) > 0:
-        colors = [Container(r=color[0], g=color[1], b=color[2], a=color[3]) for color in scene.meshes[0].colors]
+        colors = [Container(r=int(color[0] * 255), g=int(color[1] * 255), b=int(color[2] * 255), a=int(color[3] * 255)) for color in scene.meshes[0].colors]
     else:
         colors = None
 
