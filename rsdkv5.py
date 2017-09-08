@@ -1,9 +1,8 @@
 import struct
 import hashlib
-import time
 
 def swap_hash_endian(data):
-    return struct.pack("<4L", *struct.unpack(">4L", data))
+    return struct.pack("<4I", *struct.unpack(">4I", data))
 
 
 class Data(object):
@@ -172,7 +171,7 @@ class RSDKv5(object):
             files_count = struct.unpack("<H", f.read(2))[0]
             for i in xrange(files_count):
                 hash = swap_hash_endian(f.read(0x10))
-                offset, size = struct.unpack("<LL", f.read(0x8))
+                offset, size = struct.unpack("<II", f.read(0x8))
                 is_encrypted = (size >> 31) == 1
                 size &= 0x7fffffff
                 self.files.append(RSDKv5File(None, EncryptedFileData(path, offset, size), is_encrypted, hash))
@@ -208,7 +207,7 @@ class RSDKv5(object):
         for f in self.files:
             file_length = len(f.get_raw_data())
             output_file.write(swap_hash_endian(f.filename_hash))
-            output_file.write(struct.pack("<LL", offset, file_length | (int(f.is_encrypted) << 31)))
+            output_file.write(struct.pack("<II", offset, file_length | (int(f.is_encrypted) << 31)))
             offset += file_length
         for f in self.files:
             output_file.write(f.get_encrypted_data())
