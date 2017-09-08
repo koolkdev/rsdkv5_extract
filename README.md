@@ -1,4 +1,4 @@
-# Sonic Main Tools
+# Sonic Mania Tools
 
 ### [Download (Windows binary)](https://github.com/koolkdev/rsdkv5_extract/releases)
 
