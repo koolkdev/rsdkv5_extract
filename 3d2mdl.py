@@ -80,7 +80,7 @@ if __name__ == "__main__":
             frames[-1].extend(mesh.vertices)
             if frames_normals is not None:
                 if len(mesh.normals) > 0:
-                    frames_normals[-1].extend(scene.meshes[0].normals)
+                    frames_normals[-1].extend(mesh.normals)
                 else:
                     frames_normals[-1].extend([0., 0., 0.] for i in xrange(len(scene.vertices)))
 
