@@ -4,12 +4,17 @@ init:
 install:
   - pip install construct
   - pip install pyinstaller
+  - pip install pillow
 
 build_script:
+  - pyinstaller -F mdl2stl.py
+  - pyinstaller -F parse_game_config.py
+  - pyinstaller -F parse_stage_config.py
+  - pyinstaller -F render_scene_view.py
   - pyinstaller -F rsdkv5_extract.py
   - pyinstaller -F rsdkv5_pack.py
-  - pyinstaller -F mdl2stl.py
   - copy *.txt dist
+  - copy *.ini dist
 
 after_build:
   - 7z a rsdkv5-tools-v%APPVEYOR_BUILD_VERSION%.zip dist\*
