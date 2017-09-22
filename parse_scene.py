@@ -39,7 +39,7 @@ SCN = Struct(
         "skipped_byte" / Byte,
     ),
 
-    "Views" / PrefixedArray(Byte, Struct(
+    "Layers" / PrefixedArray(Byte, Struct(
         # This is read as part as the length of next string, and ignored
         "ignored_byte" / Byte,
         "Name" / LString,
