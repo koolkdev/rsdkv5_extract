@@ -23,16 +23,16 @@ if __name__ == "__main__":
     for i in xrange(0x400):
         tiles.append(tiles_image.crop((0, i * 16, 16, i * 16 + 16)))
 
-    for view in scene.Views:
-        view_image = Image.new("RGB", (view.Width * 16, view.Height * 16), (255, 0, 255))
-        for x in xrange(view.Width):
-            for y in xrange(view.Height):
-                tile = view.Tiles[y * view.Width + x]
+    for layer in scene.Layers:
+        layer_image = Image.new("RGB", (layer.Width * 16, layer.Height * 16), (255, 0, 255))
+        for x in xrange(layer.Width):
+            for y in xrange(layer.Height):
+                tile = layer.Tiles[y * layer.Width + x]
                 if tile != 0xffff:
                     tile_image = tiles[tile & 0x3ff]
                     if (tile >> 10) & 1:
                         tile_image = ImageOps.mirror(tile_image)
                     if (tile >> 10) & 2:
                         tile_image = ImageOps.flip(tile_image)
-                    view_image.paste(tile_image, (x * 16, y * 16, x * 16 + 16, y * 16 + 16))
-        view_image.save(os.path.join(os.path.dirname(sys.argv[1]), os.path.basename(sys.argv[1]) + "-" + view.Name.strip('\0') + ".png"))
+                    layer_image.paste(tile_image, (x * 16, y * 16, x * 16 + 16, y * 16 + 16))
+        layer_image.save(os.path.join(os.path.dirname(sys.argv[1]), os.path.basename(sys.argv[1]) + "-" + layer.Name.strip('\0') + ".png"))

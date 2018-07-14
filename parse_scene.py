@@ -39,12 +39,12 @@ SCN = Struct(
         "skipped_byte" / Byte,
     ),
 
-    "Views" / PrefixedArray(Byte, Struct(
+    "Layers" / PrefixedArray(Byte, Struct(
         # This is read as part as the length of next string, and ignored
         "ignored_byte" / Byte,
         "Name" / LString,
 
-        "unknown_byte_1" / Byte,
+        "IsScrollingVertical" / Byte,
         "unknown_byte_2" / Byte,  # Related to background switch?
 
         "Width" / Word,
@@ -60,7 +60,7 @@ SCN = Struct(
             "unknown_byte_2" / Byte,
         )),
 
-        "ScrollingInfo" / CompressedZlib(Bytes(this.Height * 0x10)),
+        "ScrollingInfo" / CompressedZlib(Bytes(lambda this: (this.IsScrollingVertical and this.Width or this.Height) * 0x10)),
 
         "Tiles" / CompressedZlib(Array(this.Width * this.Height, Word))
     )),
