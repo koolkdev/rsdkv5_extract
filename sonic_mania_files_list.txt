@@ -170,7 +170,6 @@ Data/Palettes/EncoreTMZ1d.act
 Data/Palettes/EncoreTMZ1l.act
 Data/Palettes/EncoreTMZ2.act
 Data/Palettes/EncoreTMZ3.act
-Data/Palettes/EncoreERZ.act
 Data/Shaders/CSO-DX11/CRT-Yee64.fso
 Data/Shaders/CSO-DX11/CRT-Yee64.vso
 Data/Shaders/CSO-DX11/CRT-Yeetron.fso

@@ -121,7 +121,6 @@ DrawHelpers
 Drillerdroid
 DrillerdroidO
 Dust
-ERROR:
 ERZGunner
 ERZKing
 ERZMystic
