@@ -29,10 +29,10 @@ Missing files - 17
 
 **OBJ (.bin)** - Static object files Data/Objects/Static/\*.bin. The name of the file is the hash of the name of the object.
 
-Credits:
-[koolkdev](https://github.com/koolkdev)- Making the original tool
-[Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus file names
-[RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names
-[Beta Angel](https://twitter.com/Slashiee_) - Finding Mania Plus file names
-[Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names
-Tpot - Finding Mania Plus file names
+Credits:  
+[koolkdev](https://github.com/koolkdev)- Making the original tool  
+[Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus file names  
+[RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names  
+[Beta Angel](https://twitter.com/Slashiee_) - Finding Mania Plus file names  
+[Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names  
+[Tpot](https://github.com/Tpot-SSL) - Finding Mania Plus file names
