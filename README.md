@@ -3,7 +3,7 @@
 ### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract/releases)
 
 ## Data.rsdk status
-Missing files - 17
+Missing files - 17 (Models, SoundFX, one Palette, and GIFs)
 
 ## File formats and tools
 **RSDK (.rsdk)** - Retro SDK Archive -  Archive of all the files
