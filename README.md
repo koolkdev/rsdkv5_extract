@@ -34,6 +34,6 @@ Credits:
 [Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus file names  
 [RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names  
 [Slashiee](https://twitter.com/Slashiee_) - Finding Mania Plus file names  
-[Beta Angel](https://twitter.com/BetaAngel01) - Finding Mania Plus file names
+[Beta Angel](https://twitter.com/BetaAngel01) - Finding Mania Plus file names  
 [Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names  
 [Tpot](https://github.com/Tpot-SSL) - Finding Mania Plus file names
