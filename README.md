@@ -1,10 +1,9 @@
 # Sonic Mania Tools
 
-### [Download (Windows binary)](https://github.com/koolkdev/rsdkv5_extract/releases)
+### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract/releases)
 
 ## Data.rsdk status
-Named files:  1668/1677 (99.46%)
-Decrypted files: 1676/1677 (99.94%)
+Missing files - 17
 
 ## File formats and tools
 **RSDK (.rsdk)** - Retro SDK Archive -  Archive of all the files
@@ -29,3 +28,11 @@ Decrypted files: 1676/1677 (99.94%)
 * palette_editor.py - palette editor for GameConfig.bin and StageConfig.bin
 
 **OBJ (.bin)** - Static object files Data/Objects/Static/\*.bin. The name of the file is the hash of the name of the object.
+
+Credits:
+[koolkdev](https://github.com/koolkdev)- Making the original tool
+[Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus file names
+[RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names
+[Beta Angel](https://twitter.com/Slashiee_) - Finding Mania Plus file names
+[Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names
+Tpot - Finding Mania Plus file names
