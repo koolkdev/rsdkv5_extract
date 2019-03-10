@@ -3,7 +3,7 @@
 ### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract/releases)
 
 ## Data.rsdk status
-Missing files - 17 (Models, SoundFX, one Palette, and GIFs)
+Missing files - 1 (One unused Mirage Saloon wav)
 
 ## File formats and tools
 **RSDK (.rsdk)** - Retro SDK Archive -  Archive of all the files
@@ -34,7 +34,7 @@ Credits:
 [Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus file names  
 [RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names  
 [Slashiee](https://twitter.com/Slashiee_) - Finding Mania Plus file names  
-[SuperSonic16](https://github.com/thesupersonic16) - Finding Mania Plus file names
+[SuperSonic16](https://github.com/thesupersonic16) - Finding Mania Plus file names  
 [Beta Angel](https://twitter.com/BetaAngel01) - Finding Mania Plus file names  
 [Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names  
 [Tpot](https://github.com/Tpot-SSL) - Finding Mania Plus file names
