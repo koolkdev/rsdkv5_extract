@@ -1,6 +1,6 @@
 # Sonic Mania Tools
 
-### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract/releases)
+### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract_plus/releases)
 
 ## Data.rsdk status
 Missing files - 1 (One unused Mirage Saloon wav)
