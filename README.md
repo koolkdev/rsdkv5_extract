@@ -31,10 +31,9 @@ Missing files - 1 (One unused Mirage Saloon wav)
 
 Credits:  
 [koolkdev](https://github.com/koolkdev)- Making the original tool  
-[Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus file names  
+[Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus/1.07 file names  
 [RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names  
 [Slashiee](https://twitter.com/Slashiee_) - Finding Mania Plus file names  
 [SuperSonic16](https://github.com/thesupersonic16) - Finding Mania Plus file names  
-[Beta Angel](https://twitter.com/BetaAngel01) - Finding Mania Plus file names  
 [Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names  
 [Tpot](https://github.com/Tpot-SSL) - Finding Mania Plus file names
