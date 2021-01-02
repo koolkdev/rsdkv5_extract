@@ -3,7 +3,7 @@
 ### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract_plus/releases)
 
 ## Data.rsdk status
-Missing files - 1 (One unused Mirage Saloon wav)
+Fully extracted.
 
 ## File formats and tools
 **RSDK (.rsdk)** - Retro SDK Archive -  Archive of all the files
