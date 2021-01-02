@@ -366,7 +366,7 @@ Data/SoundFX/MSZ/MysticTransform.wav
 Data/SoundFX/MSZ/MysticTwinkle.wav
 Data/SoundFX/MSZ/Piano00C2.wav
 Data/SoundFX/MSZ/Pinata.wav
-Data/SoundFX/MSZ/?.wav
+Data/SoundFX/MSZ/RkillerRattle.wav
 Data/SoundFX/MSZ/SandFall.wav
 Data/SoundFX/MSZ/SandSwim.wav
 Data/SoundFX/MSZ/Spray.wav
