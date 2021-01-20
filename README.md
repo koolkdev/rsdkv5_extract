@@ -3,8 +3,8 @@
 ### [Download (Windows binary)](https://github.com/koolkdev/rsdkv5_extract/releases)
 
 ## Data.rsdk status
-Named files:  1668/1677 (99.46%)
-Decrypted files: 1676/1677 (99.94%)
+Named files:  1677/1677 (100%)
+Decrypted files: 1677/1677 (100%)
 
 ## File formats and tools
 **RSDK (.rsdk)** - Retro SDK Archive -  Archive of all the files
