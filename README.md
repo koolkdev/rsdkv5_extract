@@ -32,8 +32,8 @@ Fully extracted.
 Credits:  
 [koolkdev](https://github.com/koolkdev)- Making the original tool  
 [Axanery](https://youtube.com/c/Axanery) - Finding Mania Plus/1.07 file names  
+[M&M](https://github.com/ActualMandM) - Finding Mania Plus file names  
 [RandomTalkingBush](https://twitter.com/RandomTBush) - Finding Mania Plus file names  
-[Slashiee](https://twitter.com/Slashiee_) - Finding Mania Plus file names  
 [SuperSonic16](https://github.com/thesupersonic16) - Finding Mania Plus file names  
 [Rubberduckycooly](https://twitter.com/Rubberduckcooly) - Finding Mania Plus file names  
 [Tpot](https://github.com/Tpot-SSL) - Finding Mania Plus file names
