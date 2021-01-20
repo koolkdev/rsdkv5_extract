@@ -1,6 +1,8 @@
 # Sonic Mania Tools
 
 ### [Download (Windows binary)](https://github.com/Axanery/rsdkv5_extract_plus/releases)
+### [Mod Loader Tutorial](https://www.youtube.com/watch?v=Kl2pKkaqklY)
+### [Extraction Tutorial (for this tool)](https://www.youtube.com/watch?v=8oxISJxgBc4)
 
 ## Data.rsdk status
 Fully extracted.
